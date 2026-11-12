@@ -1450,14 +1450,18 @@ function addStudentHTML() {
 const brandHTML = `<div class="brand"><span class="logo">${SMILE}</span><div><div class="brand-name">ほほえみプレミアム</div><div class="brand-sub">30枚チケット／個別コンサル予約管理</div></div></div>`;
 function loginHTML() {
   const L = state.login;
+  const err = L.linkError ? `<p class="form-error" role="alert">${esc(L.linkError)}</p>` : "";
+  let form;
+  if (L.sent) form = `<div class="form"><p>${esc(L.email)} にメールを送りました。メールの中の「Sign in」のリンクを、このページと同じブラウザで開いてください。</p>
+      <p class="hint">リンクを押してもこの画面に戻る場合は、メールのリンクが先に読み取られて使えなくなっています。パスワードでログインしてください。</p>
+      <button type="button" class="btn ghost" data-act="login-again">パスワードでログインする</button></div>`;
+  else form = `<form class="form" data-form="login-password">
+      <div class="field"><label for="l-email">メールアドレス</label><input type="email" id="l-email" name="email" required autocomplete="username" value="${esc(L.email)}"></div>
+      <div class="field"><label for="l-pass">パスワード</label><input type="password" id="l-pass" name="password" required autocomplete="current-password" style="min-height:44px;padding:.5em .8em;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:16px"></div>
+      ${errBox}<button class="btn primary" type="submit">ログインする</button>
+      <button type="button" class="btn link" data-act="login-mail">パスワードを使わず、メールのリンクでログインする</button></form>`;
   return `<div class="wrap"><div class="center-card">${brandHTML}
-    <h1>管理者ログイン</h1>
-    ${!L.sent ? `<form class="form" data-form="login-email"><p>管理者として登録されたメールアドレスに、ログイン用のメールをお送りします。</p>
-      <div class="field"><label for="l-email">メールアドレス</label><input type="email" id="l-email" name="email" required autocomplete="email" value="${esc(L.email)}"></div>
-      ${errBox}<button class="btn primary" type="submit">ログイン用メールを送る</button></form>`
-    : `<form class="form" data-form="login-code"><p>${esc(L.email)} にメールを送りました。メールのリンクを開くか、メールに書かれた数字のコードを入力してください。</p>
-      <div class="field"><label for="l-code">コード（数字）</label><input type="text" id="l-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]{6,10}" required></div>
-      ${errBox}<button class="btn primary" type="submit">ログインする</button><button type="button" class="btn link" data-act="login-again">メールアドレスを入力し直す</button></form>`}
+    <h1>管理者ログイン</h1>${err}${form}
     <p class="callout">受講生の方へ：このページは管理者用です。Larkのチャットでお送りした「専用リンク」から開いてください。</p>
   </div></div>`;
 }
@@ -1577,16 +1581,12 @@ const FORMS = {
     const p = await api.call("admin_create_student", { p_display_name: fd.get("name"), p_email: String(fd.get("email") || ""), p_request_id: s.reqId });
     await after(`${p.display_name} さんを登録しました。続けてチケットを発行してください`, { type: "student", id: p.id, panel: "issue", reqId: uuid(), key: p.access_key });
   },
-  async "login-email"(form, fd) {
+  async "login-password"(form, fd) {
     const email = String(fd.get("email") || "").trim();
-    const { error } = await api.sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
-    if (error) throw new Error(/not allowed|not found|Signups/i.test(error.message) ? "このメールアドレスは登録されていません。管理者にお問い合わせください" : /rate|limit/i.test(error.message) ? "送信の回数が多すぎます。しばらく時間をおいてお試しください" : friendly(error));
-    state.login = { sent: true, email }; render();
-  },
-  async "login-code"(form, fd) {
-    const { error } = await api.sb.auth.verifyOtp({ email: state.login.email, token: String(fd.get("code") || "").trim(), type: "email" });
-    if (error) throw new Error("コードが正しくないか、有効期限が切れています。もう一度お試しください");
-    state.mode = "app"; await reload(); render();
+    state.login.email = email;
+    const { error } = await api.sb.auth.signInWithPassword({ email, password: String(fd.get("password") || "") });
+    if (error) throw new Error(/Invalid login/i.test(error.message) ? "メールアドレスまたはパスワードが違います" : friendly(error));
+    state.login = { sent: false, email: "" }; state.mode = "app"; await reload(); render();
   },
 };
 
@@ -1649,6 +1649,13 @@ document.addEventListener("click", async (e) => {
     case "reload": state.fatal = null; await reload(); render(); toast("最新の情報にしました"); break;
     case "logout": await api.sb.auth.signOut(); state.data = null; state.fatal = null; state.mode = "login"; state.login = { sent: false, email: "" }; render(); break;
     case "login-again": state.login = { sent: false, email: state.login.email }; render(); break;
+    case "login-mail": {
+      const email = String(document.getElementById("l-email")?.value || "").trim();
+      if (!email) { toast("先にメールアドレスを入れてください"); break; }
+      const { error } = await api.sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
+      if (error) { toast(/rate|limit|security/i.test(error.message) ? "メールの送信回数が上限に達しました。しばらく待つか、パスワードでログインしてください" : "メールを送れませんでした。メールアドレスをご確認ください"); break; }
+      state.login = { sent: true, email }; render(); break;
+    }
   }
 });
 
@@ -1690,7 +1697,13 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.sh
       if (ev === "SIGNED_OUT") { state.data = null; state.fatal = null; state.mode = "login"; render(); }
       if (ev === "SIGNED_IN" && state.mode === "login") { state.mode = "app"; reload().then(render); }
     });
-    if (!session) { state.mode = "login"; render(); return; }
+    if (!session) {
+      if (/error=/.test(location.hash)) {
+        state.login.linkError = "メールのリンクは使えませんでした（期限切れ、またはすでに使われています）。パスワードでログインしてください。";
+        try { history.replaceState(null, "", location.pathname); } catch (e) { /* そのまま */ }
+      }
+      state.mode = "login"; render(); return;
+    }
   }
   state.mode = "app";
   await reload(); render();
