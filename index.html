@@ -1,0 +1,1700 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>ほほえみプレミアム30枚チケット</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
+<style>
+/* Layout: スタンプカード型のチケット（残数の要約）→ 一覧（日時・相談内容・状態・使用・残り）→ 詳細はシート（スマホは下から、PCは中央）で開く */
+:root{
+  --bg:#FDF5F4;          /* うすい桜色の地 */
+  --surface:#FFFFFF;
+  --surface-2:#FAEDEE;
+  --line:#EBD7DA;
+  --ink:#3B3140;         /* 本文：すみれがかった墨色 */
+  --ink-2:#6C6070;
+  --accent:#C24A69;      /* ほほえみローズ */
+  --accent-ink:#FFFFFF;
+  --accent-soft:#FBE1E8;
+  --accent-deep:#9C3350;
+  --leaf:#2F7D5C; --leaf-ink:#FFFFFF; --leaf-soft:#DFF1E8;
+  --sky:#2C67A6;  --sky-soft:#E2EDF9;
+  --honey:#8A5600; --honey-soft:#FFF0CF;
+  --stone:#6A6370; --stone-soft:#EEEAF0;
+  --danger:#B0353C; --danger-soft:#FBE3E3;
+  --focus:#2C67A6;
+  --shadow:0 8px 24px rgba(140,60,85,.10);
+  --font:"Zen Maru Gothic","Hiragino Maru Gothic ProN","BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+  --font-num:"Fredoka","Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;
+  --r-lg:22px; --r-md:14px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1E191F; --surface:#2A232B; --surface-2:#342A35; --line:#4A3D4C;
+  --ink:#F4EBF1; --ink-2:#C2B4C4;
+  --accent:#F18BA5; --accent-ink:#2A111B; --accent-soft:#4B2534; --accent-deep:#FFB3C6;
+  --leaf:#7FD3AC; --leaf-ink:#0F2A1F; --leaf-soft:#1D3A2E;
+  --sky:#93C3F5; --sky-soft:#1C3049;
+  --honey:#F3C66E; --honey-soft:#3B2E16;
+  --stone:#CAC1CD; --stone-soft:#393239;
+  --danger:#FF9EA3; --danger-soft:#4A2226;
+  --focus:#93C3F5; --shadow:0 8px 24px rgba(0,0,0,.35);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#1E191F; --surface:#2A232B; --surface-2:#342A35; --line:#4A3D4C;
+  --ink:#F4EBF1; --ink-2:#C2B4C4;
+  --accent:#F18BA5; --accent-ink:#2A111B; --accent-soft:#4B2534; --accent-deep:#FFB3C6;
+  --leaf:#7FD3AC; --leaf-ink:#0F2A1F; --leaf-soft:#1D3A2E;
+  --sky:#93C3F5; --sky-soft:#1C3049;
+  --honey:#F3C66E; --honey-soft:#3B2E16;
+  --stone:#CAC1CD; --stone-soft:#393239;
+  --danger:#FF9EA3; --danger-soft:#4A2226;
+  --focus:#93C3F5; --shadow:0 8px 24px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3{line-height:1.4;text-wrap:balance;margin:0}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.muted{color:var(--ink-2)}
+.num{font-family:var(--font-num);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- ヘッダー ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:38px;height:38px;flex:none}
+.logo .face{fill:var(--accent)} .logo .eye{fill:var(--accent-ink)} .logo .mouth{stroke:var(--accent-ink)}
+.brand-name{font-weight:700;font-size:1.05rem;line-height:1.3}
+.brand-sub{font-size:.8rem;color:var(--ink-2);line-height:1.3}
+.who{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.9rem}
+.who-name{font-weight:700}
+.role{display:inline-block;font-size:.75rem;font-weight:700;padding:.1em .7em;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+.role.admin{background:var(--sky-soft);color:var(--sky)}
+.who select{min-height:40px;padding:.3em .6em;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);max-width:220px}
+
+.main{display:flex;flex-direction:column;gap:20px;padding-block:20px 48px}
+
+.demo{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--honey-soft);color:var(--ink);border-radius:var(--r-md);padding:12px 16px;font-size:.92rem}
+.demo b{color:var(--honey)}
+
+/* ---------- ボタン ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;min-height:44px;padding:.5em 1.2em;border-radius:999px;border:1.5px solid transparent;font-weight:700;cursor:pointer;text-decoration:none;line-height:1.3;transition:transform .12s ease, background-color .12s ease}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.55;cursor:progress}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{background:var(--accent-deep);color:var(--surface)}
+.btn.soft{background:var(--accent-soft);color:var(--accent-deep)}
+.btn.ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--accent)}
+.btn.leaf{background:var(--leaf);color:var(--leaf-ink)}
+.btn.danger{background:var(--danger-soft);color:var(--danger)}
+.btn.small{min-height:36px;padding:.3em .9em;font-size:.9rem}
+.btn.link{background:none;border:none;color:var(--accent-deep);padding:.2em .2em;min-height:auto;text-decoration:underline;text-underline-offset:3px}
+.icon-btn{width:40px;height:40px;flex:none;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-size:1.1rem;line-height:1;color:var(--ink-2)}
+
+/* ---------- チケット（スタンプカード） ---------- */
+.ticket{background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:16px;border:1.5px dashed var(--line)}
+.ticket-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;color:var(--ink-2);font-weight:700}
+.remain{display:flex;align-items:baseline;gap:.25em;line-height:1}
+.remain .num{font-size:3.6rem;font-weight:600;color:var(--accent)}
+.remain .unit{font-size:1.2rem;font-weight:700}
+.remain .of{font-size:1rem;color:var(--ink-2);margin-left:.4em}
+.tstats{display:flex;gap:18px;margin:0}
+.tstats div{display:flex;flex-direction:column;align-items:center;min-width:3.2rem}
+.tstats dt{font-size:.78rem;color:var(--ink-2)}
+.tstats dd{margin:0;font-family:var(--font-num);font-size:1.4rem;font-weight:600;line-height:1.2}
+.stamps{display:grid;grid-template-columns:repeat(10,minmax(0,38px));gap:7px;justify-content:start}
+.stamp{aspect-ratio:1;max-width:100%;border-radius:50%;display:grid;place-items:center;font-family:var(--font-num);font-size:.72rem;color:var(--ink-2);border:1.5px dashed var(--line);background:var(--bg)}
+.stamp.used{border:none;background:var(--accent-soft)}
+.stamp svg{width:78%;height:78%}
+.stamp .face{fill:var(--accent)} .stamp .eye{fill:var(--accent-ink)} .stamp .mouth{stroke:var(--accent-ink)}
+.ticket-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ticket-foot p{font-size:.88rem;color:var(--ink-2);max-width:34em}
+
+.next{background:var(--sky-soft);border-radius:var(--r-lg);padding:16px 20px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.next .when{font-size:1.25rem;font-weight:700}
+.next .msg{font-size:.9rem;color:var(--ink-2);margin-top:2px}
+
+/* ---------- 管理者サマリー ---------- */
+.summary{display:flex;gap:10px;flex-wrap:wrap}
+.chip-stat{display:flex;align-items:center;gap:.6em;background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:.45em 1.1em;cursor:pointer;font-size:.92rem;min-height:44px}
+.chip-stat:hover{border-color:var(--accent)}
+.chip-stat b{font-family:var(--font-num);font-size:1.25rem;line-height:1}
+.chip-stat.alert{background:var(--honey-soft);border-color:transparent}
+.chip-stat.alert b{color:var(--honey)}
+.chip-stat.plain{cursor:default}
+.chip-stat.plain:hover{border-color:var(--line)}
+
+/* ---------- タブ ---------- */
+.tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:999px;width:fit-content;max-width:100%;overflow-x:auto}
+.tab{border:none;background:none;border-radius:999px;padding:.45em 1.1em;min-height:40px;cursor:pointer;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 2px 8px rgba(140,60,85,.12)}
+
+.sec{display:flex;flex-direction:column;gap:12px}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.sec-head h2{font-size:1.2rem}
+
+/* ---------- 絞り込み ---------- */
+.filters{display:flex;flex-direction:column;gap:10px;background:var(--surface);border-radius:var(--r-md);padding:12px;border:1px solid var(--line)}
+.f-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 240px;min-width:0;position:relative}
+.search input{width:100%;padding-left:2.3em}
+.search svg{position:absolute;left:.75em;top:50%;transform:translateY(-50%);width:1.1em;height:1.1em;stroke:var(--ink-2)}
+input[type=text],input[type=email],input[type=search],input[type=date],input[type=number],select,textarea{min-height:44px;padding:.5em .8em;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:16px;max-width:100%}
+textarea{width:100%;min-height:6.5em;resize:vertical;line-height:1.7}
+.filters .search input{padding-left:2.5em}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.fchip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:.25em .9em;min-height:38px;cursor:pointer;font-size:.92rem;display:inline-flex;gap:.4em;align-items:center}
+.fchip .c{font-family:var(--font-num);color:var(--ink-2);font-size:.85rem}
+.fchip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.fchip[aria-pressed="true"] .c{color:var(--bg)}
+
+/* ---------- 状態 ---------- */
+.pill{display:inline-flex;align-items:center;gap:.4em;padding:.12em .75em;border-radius:999px;font-size:.85rem;font-weight:700;white-space:nowrap;line-height:1.6}
+.pill::before{content:"";width:.6em;height:.6em;border-radius:50%;flex:none}
+.st-requested{background:var(--honey-soft);color:var(--honey)}
+.st-requested::before{border:2px solid currentColor}
+.st-confirmed{background:var(--sky-soft);color:var(--sky)}
+.st-confirmed::before{background:currentColor}
+.st-completed{background:var(--leaf-soft);color:var(--leaf)}
+.st-completed::before{content:"✓";width:auto;height:auto;font-size:.95em;line-height:1}
+.st-cancelled{background:var(--stone-soft);color:var(--stone)}
+.st-cancelled::before{content:"－";width:auto;height:auto;line-height:1}
+
+/* ---------- 一覧 ---------- */
+.list{display:flex;flex-direction:column;gap:8px}
+.list-head,.row{display:grid;grid-template-columns:11.5rem minmax(0,1fr) 6.8rem 4.2rem 5.6rem;gap:12px;align-items:center}
+.is-admin .list-head,.is-admin .row{grid-template-columns:11.5rem 7.5rem minmax(0,1fr) 6.8rem 4.2rem 5.6rem}
+.list-head{font-size:.8rem;color:var(--ink-2);font-weight:700;padding:0 16px}
+.row{width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-md);padding:12px 16px;cursor:pointer;transition:border-color .12s ease, box-shadow .12s ease}
+.row:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+.row.is-cancelled .c-title,.row.is-cancelled .c-when{color:var(--ink-2)}
+.c-when{display:flex;flex-direction:column;line-height:1.35}
+.c-when .w{font-weight:700;font-family:var(--font-num)}
+.c-when .s{font-size:.8rem;color:var(--ink-2)}
+.c-who{font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.c-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.c-tix{display:contents}
+.c-used,.c-left{font-family:var(--font-num);text-align:right;white-space:nowrap}
+.c-used b,.c-left b{font-weight:600}
+.c-left .now{color:var(--ink-2);font-size:.85rem}
+.c-left .snap{display:block;font-size:.72rem;color:var(--ink-2);font-family:var(--font);line-height:1.2}
+.lbl{display:none}
+.empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:var(--r-md);padding:28px 16px;text-align:center;color:var(--ink-2);display:flex;flex-direction:column;gap:10px;align-items:center}
+
+@media (max-width:760px){
+  .list-head{display:none}
+  .row,.is-admin .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"when status" "title title" "tix tix";gap:6px 10px}
+  .is-admin .row{grid-template-areas:"when status" "title title" "who tix"}
+  .c-when{grid-area:when;flex-direction:row;align-items:baseline;gap:.5em;flex-wrap:wrap}
+  .c-status{grid-area:status}
+  .c-title{grid-area:title;white-space:normal;font-size:1.02rem}
+  .c-who{grid-area:who;color:var(--ink-2)}
+  .c-tix{grid-area:tix;display:flex;gap:14px;justify-content:flex-end;font-size:.9rem}
+  .c-used,.c-left{text-align:left}
+  .c-left .snap{display:inline;margin-left:.3em}
+  .lbl{display:inline;font-family:var(--font);color:var(--ink-2);font-size:.8rem;margin-right:.3em}
+  .remain .num{font-size:3rem}
+  .tstats{gap:12px}
+}
+
+/* ---------- 台帳・履歴 ---------- */
+.ledger{display:flex;flex-direction:column;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--line);overflow:hidden}
+.lg-row{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 4.5rem 4.5rem;gap:12px;padding:10px 16px;border-top:1px solid var(--line);align-items:center}
+.lg-row:first-child{border-top:none}
+.lg-row.head{font-size:.8rem;color:var(--ink-2);font-weight:700;background:var(--surface-2)}
+.lg-when{font-family:var(--font-num);font-size:.9rem}
+.lg-what{min-width:0}
+.lg-what .t{font-weight:500}
+.lg-what .r{font-size:.82rem;color:var(--ink-2);overflow-wrap:anywhere}
+.lg-delta,.lg-bal{font-family:var(--font-num);text-align:right;font-weight:600}
+.minus{color:var(--accent-deep)} .plus{color:var(--leaf)}
+@media (max-width:760px){
+  .lg-row{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"when delta bal" "what what what";gap:2px 14px}
+  .lg-row.head{display:none}
+  .lg-when{grid-area:when;color:var(--ink-2)} .lg-what{grid-area:what} .lg-delta{grid-area:delta} .lg-bal{grid-area:bal}
+}
+
+.students{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.stu{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-md);padding:14px 16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.stu:hover{border-color:var(--accent)}
+.stu-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.stu-name{font-weight:700;font-size:1.05rem;min-width:0;overflow-wrap:anywhere}
+.stu-rem{font-family:var(--font-num);font-size:1.6rem;font-weight:600;color:var(--accent);line-height:1}
+.stu-rem small{font-family:var(--font);font-size:.8rem;color:var(--ink-2);margin-left:.2em}
+.stu-meta{font-size:.85rem;color:var(--ink-2);display:flex;gap:12px;flex-wrap:wrap}
+.meter{height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:999px}
+
+.events{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.ev{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.ev:first-child{border-top:none}
+.ev time{font-family:var(--font-num);font-size:.9rem;color:var(--ink-2)}
+.ev-body{min-width:0;display:flex;flex-direction:column;gap:2px;overflow-wrap:anywhere}
+.ev-who{font-size:.85rem;color:var(--ink-2)}
+.ev-what{font-weight:500}
+.ev-reason{font-size:.88rem;background:var(--surface-2);border-radius:10px;padding:2px 10px;width:fit-content;max-width:100%}
+.ev-link{font-size:.85rem}
+@media (max-width:760px){ .ev{grid-template-columns:1fr;gap:2px} }
+
+/* ---------- シート ---------- */
+.backdrop{position:fixed;inset:0;background:rgba(40,20,35,.38);z-index:20}
+.sheet{position:fixed;z-index:21;left:50%;top:50%;transform:translate(-50%,-50%);width:min(680px,calc(100vw - 32px));max-height:min(88vh,900px);overflow:auto;background:var(--bg);border-radius:var(--r-lg);box-shadow:0 20px 60px rgba(0,0,0,.25);padding:24px;display:flex;flex-direction:column;gap:18px;overscroll-behavior:contain}
+.sheet-x{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;border:none;background:var(--surface-2);cursor:pointer;font-size:1.2rem;color:var(--ink-2)}
+@media (max-width:640px){
+  .sheet{left:0;right:0;bottom:0;top:auto;transform:none;width:100%;max-height:92vh;border-radius:var(--r-lg) var(--r-lg) 0 0;padding:20px max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+}
+.sh-head{display:flex;flex-direction:column;gap:6px;padding-right:44px}
+.sh-head h2{font-size:1.35rem}
+.sh-head h2:focus{outline:none}
+.sh-when{background:var(--surface);border-radius:var(--r-md);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.sh-when .big{font-size:1.3rem;font-weight:700}
+.sh-when ol{margin:0;padding-left:1.4em}
+.sh-when .method b{font-weight:700}
+.sh-when .note{font-size:.9rem;color:var(--ink-2)}
+.fields{margin:0;display:flex;flex-direction:column;gap:12px}
+.fields dt{font-size:.85rem;font-weight:700;color:var(--ink-2)}
+.fields dd{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface);border-radius:var(--r-md);padding:10px 14px}
+.fields dd.empty-v{color:var(--ink-2);background:transparent;padding:0}
+.sh-ticket{border-radius:var(--r-md);padding:12px 16px;font-size:.95rem;background:var(--surface-2)}
+.sh-ticket.used{background:var(--accent-soft)}
+.sh-actions{display:flex;gap:8px;flex-wrap:wrap}
+.sh-note{font-size:.88rem;color:var(--ink-2)}
+.sh-sec{display:flex;flex-direction:column;gap:8px}
+.sh-sec h3{font-size:1rem}
+.timeline{list-style:none;margin:0;padding:0 0 0 18px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.timeline li{position:relative}
+.timeline li::before{content:"";position:absolute;left:-25px;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2.5px solid var(--accent)}
+.timeline time{font-family:var(--font-num);font-size:.85rem;color:var(--ink-2)}
+.diff{margin:4px 0 0;padding:0;list-style:none;font-size:.88rem;display:flex;flex-direction:column;gap:2px}
+.diff details{margin-top:2px}
+.diff summary{cursor:pointer;color:var(--accent-deep)}
+.diff pre{white-space:pre-wrap;font-family:var(--font);background:var(--surface);border-radius:10px;padding:6px 10px;margin:4px 0}
+
+/* ---------- フォーム ---------- */
+.form{display:flex;flex-direction:column;gap:16px}
+.back{align-self:flex-start}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.field .lab,legend{font-weight:700;font-size:.95rem}
+.req{font-size:.72rem;font-weight:700;background:var(--accent-soft);color:var(--accent-deep);border-radius:999px;padding:.05em .6em;margin-left:.4em;vertical-align:.1em}
+.hint{font-size:.85rem;color:var(--ink-2)}
+.count{font-size:.8rem;color:var(--ink-2);text-align:right;font-family:var(--font-num)}
+fieldset{border:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.slot-list{display:flex;flex-direction:column;gap:8px}
+.slot-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.slot-label{font-size:.85rem;font-weight:700;color:var(--ink-2);width:4.2em}
+.slot-row input[type=date]{flex:1 1 9.5em;min-width:0}
+.slot-row select{flex:0 0 6.5em}
+.radio-list{display:flex;flex-direction:column;gap:6px}
+.radio{display:flex;gap:10px;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;flex-wrap:wrap}
+.radio input{width:20px;height:20px;accent-color:var(--accent)}
+.radio:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.inline-dt{display:flex;gap:8px;flex-wrap:wrap}
+.inline-dt input[type=date]{flex:1 1 9.5em;min-width:0}
+.callout{border-radius:var(--r-md);padding:12px 16px;font-size:.95rem;background:var(--surface);border:1.5px solid var(--line)}
+.callout.warn{background:var(--honey-soft);border-color:transparent}
+.callout.ok{background:var(--leaf-soft);border-color:transparent}
+.callout b.num{font-size:1.15em}
+.form-error{background:var(--danger-soft);color:var(--danger);border-radius:12px;padding:10px 14px;font-weight:500}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap}
+.check{display:flex;gap:8px;align-items:center}
+.check input{width:20px;height:20px;accent-color:var(--accent)}
+.bal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.bal-grid div{background:var(--surface);border-radius:var(--r-md);padding:10px;text-align:center;display:flex;flex-direction:column}
+.bal-grid span{font-size:.8rem;color:var(--ink-2)}
+.bal-grid b{font-family:var(--font-num);font-size:1.5rem;font-weight:600;line-height:1.2}
+.bal-grid div:first-child b{color:var(--accent)}
+
+/* ---------- ログイン・その他 ---------- */
+.center-card{max-width:440px;margin:48px auto;background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:28px 24px;display:flex;flex-direction:column;gap:16px}
+.center-card h1{font-size:1.3rem}
+.link-box{background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--r-md);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.link-box h3{font-size:1rem}
+.link-url{width:100%;font-family:var(--font-num);font-size:.9rem;color:var(--ink-2);background:var(--surface-2)}
+.link-box textarea{font-size:.9rem;margin-top:6px}
+.link-box summary{cursor:pointer;color:var(--accent-deep);font-weight:500}
+.foot{font-size:.82rem;color:var(--ink-2);padding-block:0 32px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 18px;max-width:calc(100vw - 32px);width:max-content;box-shadow:0 10px 30px rgba(0,0,0,.25);font-weight:500}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+</style>
+</head>
+<body>
+<div id="app"><div class="center-card"><p>読み込み中…</p></div></div>
+<div id="sheet-root"></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+"use strict";
+/* =====================================================================
+   ほほえみプレミアム30枚チケット／個別コンサル予約管理
+   ---------------------------------------------------------------------
+   ■ 動作モード
+   ・本番（CONFIG に Supabase の URL とキーを入れたとき）
+       - 受講生：専用リンク（末尾が #k=… のURL）で開くと、その方の画面になります。ログイン不要。
+       - 管理者：専用リンクなしで開くと管理者ログイン。登録された管理者だけが管理画面を使えます。
+       事前に supabase/schema.sql の実行が必要です（README.md 参照）。
+   ・デモ（Supabase 未設定で DEMO: true のとき）：見本データで、このブラウザの中だけで動きます。
+   ・準備中（Supabase 未設定で DEMO: false のとき）：「準備中」と表示するだけです。
+   ===================================================================== */
+const CONFIG = {
+  SUPABASE_URL: "https://ejihlwhvjggkkgggrdvw.supabase.co",   // 例： "https://abcdefghijk.supabase.co"
+  SUPABASE_KEY: "sb_publishable_ZI-qAw_sp1DwZd8DoF0KQw_muIbL-AZ",   // 公開用のキー：Publishable key（sb_publishable_…）または anon public キー。secret / service_role キーは絶対に入れない
+  DEMO: false,        // 公開用：未接続のときは「準備中」と表示する
+};
+const SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js";
+const STUDENT_FNS = ["request_booking", "edit_booking", "request_change", "cancel_booking"];
+function readKeyFromHash() {
+  const m = /(?:^#|&)k=([0-9a-f]{32})(?:&|$)/i.exec(location.hash || "");
+  return m ? m[1].toLowerCase() : null;
+}
+const hasHashKey = () => /(?:^#|&)k=/.test(location.hash || "");
+const linkFor = (key) => `${location.origin}${location.pathname}#k=${key}`;
+
+/* ---------- 小さな道具 ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pad = (n) => String(n).padStart(2, "0");
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const len = (s) => [...String(s ?? "")].length;
+const signed = (n) => (n > 0 ? "+" + n : String(n));
+function uuid() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => { const r = (Math.random() * 16) | 0; return (c === "x" ? r : (r & 3) | 8).toString(16); });
+}
+
+/* ---------- 日本時間（JST・夏時間なし）---------- */
+const WD = ["日", "月", "火", "水", "木", "金", "土"];
+function jst(iso) { const d = new Date(Date.parse(iso) + 9 * 3600e3); return { y: d.getUTCFullYear(), m: d.getUTCMonth() + 1, d: d.getUTCDate(), hh: d.getUTCHours(), mm: d.getUTCMinutes(), wd: d.getUTCDay() }; }
+const nowISO = () => new Date().toISOString();
+function fmtWhen(iso) { if (!iso) return "—"; const p = jst(iso), n = jst(nowISO()); return `${p.y !== n.y ? p.y + "年" : ""}${p.m}月${p.d}日（${WD[p.wd]}）${p.hh}:${pad(p.mm)}`; }
+function fmtShort(iso) { if (!iso) return "—"; const p = jst(iso), n = jst(nowISO()); return `${p.y !== n.y ? p.y + "/" : ""}${p.m}/${p.d}（${WD[p.wd]}）${p.hh}:${pad(p.mm)}`; }
+function fmtStamp(iso) { if (!iso) return "—"; const p = jst(iso); return `${p.y}/${pad(p.m)}/${pad(p.d)} ${pad(p.hh)}:${pad(p.mm)}`; }
+function fmtDay(iso) { const p = jst(iso); return `${p.m}/${p.d}`; }
+const jstToISO = (date, time) => new Date(`${date}T${time}:00+09:00`).toISOString();
+function isoToJstDate(iso) { const p = jst(iso); return `${p.y}-${pad(p.m)}-${pad(p.d)}`; }
+function isoToJstTime(iso) { const p = jst(iso); return `${pad(p.hh)}:${pad(p.mm)}`; }
+const todayJst = () => isoToJstDate(nowISO());
+function dayISO(days, hm) { const p = jst(nowISO()); const d = new Date(Date.UTC(p.y, p.m - 1, p.d + days)); return jstToISO(`${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`, hm); }
+function startOfTodayMs() { return Date.parse(jstToISO(todayJst(), "00:00")); }
+
+const STATUS = {
+  requested: { label: "申込中" },
+  confirmed: { label: "確定" },
+  completed: { label: "完了" },
+  cancelled: { label: "キャンセル" },
+};
+const pill = (s) => `<span class="pill st-${s}">${STATUS[s]?.label ?? esc(s)}</span>`;
+const FIELD = { title: "相談内容（ひとことで）", want_together: "一緒にしてほしいこと", want_learn: "教えてほしいこと", preferred_slots: "希望日時", duration_min: "時間", meeting_method: "実施方法", admin_message: "連絡事項", display_name: "お名前", email: "メールアドレス", active: "利用状態" };
+/* コンサルの実施方法（Lark）。受講生とのやり取りはLarkのチャットで行う */
+const METHOD = {
+  lark_meeting: { label: "Larkビデオ会議", short: "ビデオ会議", note: "参加リンクは、Larkのチャットでお送りします。" },
+  lark_call: { label: "Larkビデオ通話", short: "ビデオ通話", note: "予約の時間に、Larkのチャットからビデオ通話をおかけします。" },
+};
+const methodLabel = (m) => METHOD[m]?.label || METHOD.lark_meeting.label;
+const methodShort = (m) => METHOD[m]?.short || METHOD.lark_meeting.short;
+const methodNote = (m) => METHOD[m]?.note || METHOD.lark_meeting.note;
+const LONG_FIELDS = ["want_together", "want_learn", "admin_message"];
+const KIND = { issue: "チケット発行", consume: "コンサル完了で使用", restore: "完了の取り消しで戻す", adjust: "枚数の調整" };
+const ACTIONS = { request: "申込み", edit: "内容の編集", confirm: "確定", reschedule: "日時の変更", change_request: "日時の変更依頼", complete: "完了（1枚使用）", undo_complete: "完了の取り消し", cancel: "キャンセル", undo_cancel: "キャンセルの取り消し", issue: "チケット発行", adjust: "枚数の調整", profile: "受講生情報の変更", create_student: "受講生の登録", reissue_key: "専用リンクの再発行" };
+
+/* =====================================================================
+   デモ用サーバー（このブラウザ内）— supabase/schema.sql の関数と同じ規則で動きます
+   ===================================================================== */
+const RPCS = ["request_booking", "edit_booking", "confirm_booking", "reschedule_booking", "request_change", "complete_booking", "undo_completion", "cancel_booking", "undo_cancellation", "issue_tickets", "adjust_tickets", "update_profile", "admin_create_student", "admin_get_key", "admin_reissue_key"];
+const demoKey = () => uuid().replace(/-/g, "");
+
+class DemoServer {
+  constructor() {
+    this.KEY = "hohoemi-premium-ticket-demo-v3";
+    this.clock = null;
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(this.KEY) || "null"); } catch (e) { saved = null; }
+    this.db = saved && saved.ver === 3 ? saved : this.seed();
+    this.save();
+  }
+  save() { try { localStorage.setItem(this.KEY, JSON.stringify(this.db)); } catch (e) { /* 保存できない環境でも動作は続ける */ } }
+  reset() { this.db = this.seed(); this.save(); }
+  now() { return this.clock || nowISO(); }
+  fail(m) { throw new Error(m); }
+  get me() { return this.db.profiles.find((p) => p.id === this.db.meId) || null; }
+  setMe(id) { this.db.meId = id; this.save(); }
+  uid() { const m = this.me; if (!m) this.fail("ログインが必要です"); return m.id; }
+  isAdmin() { const m = this.me; return !!(m && m.role === "admin" && m.active); }
+  prof(id) { return this.db.profiles.find((p) => p.id === id) || null; }
+  bk(id) { const b = this.db.bookings.find((x) => x.id === id); if (!b) this.fail("予約が見つかりません"); return b; }
+  balance(sid) { let s = 0; for (const l of this.db.ledger) if (l.student_id === sid) s += l.delta; return s; }
+  hasReq(rid) { return !!rid && this.db.ledger.some((l) => l.request_id === rid); }
+  log(actor, sid, bid, action, detail, reason) {
+    this.db.events.push({ id: ++this.db.seq.event, at: this.now(), actor_id: actor, actor_role: this.prof(actor)?.role || "unknown", student_id: sid || null, booking_id: bid || null, action, detail: detail || {}, reason: String(reason || "").trim() });
+  }
+  addLedger(row) {
+    if (row.request_id && this.hasReq(row.request_id)) this.fail("この操作はすでに記録されています");
+    this.db.ledger.push({ booking_id: null, reason: "", request_id: null, ...row, id: ++this.db.seq.ledger, created_at: this.now() });
+    return this.db.seq.ledger;
+  }
+  needReason(r) { r = String(r ?? "").trim(); if (len(r) < 2) this.fail("理由を入力してください（訂正・変更の記録に残ります）"); return r; }
+  ver(b, v) { if (b.version !== Number(v)) this.fail("他の操作で内容が更新されています。画面を更新してから、もう一度お試しください"); }
+  touch(b) { b.version++; b.updated_at = this.now(); }
+  slots(arr) {
+    if (!Array.isArray(arr)) return null;
+    return arr.map((x) => { const t = Date.parse(x); if (isNaN(t)) this.fail("日時の形式が正しくありません"); return new Date(t).toISOString(); });
+  }
+  same(a, b) { return a.length === b.length && a.every((x, i) => Date.parse(x) === Date.parse(b[i])); }
+  past(slots) { return slots.some((s) => Date.parse(s) < Date.parse(this.now())); }
+  label(s) { return STATUS[s]?.label || s; }
+  checkTitle(t) {
+    t = String(t ?? "").trim();
+    if (!t) this.fail("相談内容（ひとことで）を入力してください");
+    if (len(t) > 40) this.fail("相談内容（ひとことで）は40文字以内で入力してください");
+    return t;
+  }
+  integrity() {
+    const net = {}, bal = {};
+    for (const l of this.db.ledger) {
+      bal[l.student_id] = (bal[l.student_id] || 0) + l.delta;
+      if (l.booking_id && (l.kind === "consume" || l.kind === "restore")) net[l.booking_id] = (net[l.booking_id] || 0) - l.delta;
+    }
+    if (Object.values(net).some((n) => n !== 0 && n !== 1)) this.fail("チケット消費の整合性エラー：同じ予約で2枚以上は消費できません");
+    if (Object.values(bal).some((v) => v < 0)) this.fail("チケット残数がマイナスになる操作はできません");
+    for (const b of this.db.bookings) {
+      if ((b.status === "completed") !== b.ticket_consumed || (net[b.id] || 0) !== (b.ticket_consumed ? 1 : 0)) this.fail("整合性エラー：完了と消費の記録が一致しません");
+    }
+  }
+  /* 1つの操作を「全部成功」か「何も変えない」で実行（データベースのトランザクション相当） */
+  call(name, params) {
+    if (!RPCS.includes(name)) this.fail("不明な操作です");
+    const snap = JSON.stringify(this.db);
+    try {
+      const r = this[name](params || {});
+      this.integrity();
+      this.save();
+      return r === undefined ? null : clone(r);
+    } catch (e) { this.db = JSON.parse(snap); throw e; }
+  }
+
+  /* ----- 操作（schema.sql の関数と同じ名前・同じ規則）----- */
+  request_booking(p) {
+    const uid = this.uid(), admin = this.isAdmin();
+    if (!p.p_request_id) this.fail("操作IDがありません");
+    const ex = this.db.bookings.find((b) => b.request_id === p.p_request_id);
+    if (ex) { if (ex.student_id !== uid && !admin) this.fail("権限がありません"); return ex; }
+    const sid = admin && p.p_student_id ? p.p_student_id : uid;
+    const sp = this.prof(sid);
+    if (!sp || sp.role !== "student" || !sp.active) this.fail("受講生として登録されていません。管理者にお問い合わせください");
+    const title = this.checkTitle(p.p_title);
+    const tog = String(p.p_want_together ?? ""), lrn = String(p.p_want_learn ?? "");
+    if (len(tog) > 2000 || len(lrn) > 2000) this.fail("文章は2000文字以内で入力してください");
+    const slots = this.slots(p.p_slots);
+    if (!slots || !slots.length) this.fail("希望日時を1つ以上入力してください");
+    if (slots.length > 3) this.fail("希望日時は3つまでです");
+    if (!admin && this.past(slots)) this.fail("過去の日時は選べません");
+    const bal = this.balance(sid);
+    const open = this.db.bookings.filter((b) => b.student_id === sid && (b.status === "requested" || b.status === "confirmed")).length;
+    if (bal <= 0) this.fail("チケットの残りがありません（残り0枚）。管理者にお問い合わせください");
+    if (!admin && open >= bal) this.fail(`申込中・確定の予約がすでに${open}件あり、残りチケット（${bal}枚）分に達しています`);
+    const now = this.now();
+    const b = { id: uuid(), booking_no: ++this.db.seq.booking, student_id: sid, title, want_together: tog, want_learn: lrn, preferred_slots: slots, scheduled_at: null, duration_min: 60, meeting_method: "lark_meeting", admin_message: "", status: "requested", status_before_cancel: null, ticket_consumed: false, completed_at: null, cancelled_at: null, request_id: p.p_request_id, version: 1, created_at: now, updated_at: now };
+    this.db.bookings.push(b);
+    this.log(uid, sid, b.id, "request", { title, slots });
+    return b;
+  }
+  edit_booking(p) {
+    const uid = this.uid(), admin = this.isAdmin();
+    const b = this.bk(p.p_booking_id);
+    if (!admin && b.student_id !== uid) this.fail("権限がありません");
+    this.ver(b, p.p_expected_version);
+    if (!admin && !["requested", "confirmed"].includes(b.status)) this.fail(`「${this.label(b.status)}」の予約は編集できません`);
+    const title = this.checkTitle(p.p_title ?? b.title);
+    const tog = p.p_want_together ?? b.want_together, lrn = p.p_want_learn ?? b.want_learn;
+    if (len(tog) > 2000 || len(lrn) > 2000) this.fail("文章は2000文字以内で入力してください");
+    const slots = p.p_slots ? this.slots(p.p_slots) : b.preferred_slots;
+    if (!this.same(slots, b.preferred_slots)) {
+      if (b.status !== "requested") this.fail("確定後の日時は「日時を変更」から変更してください");
+      if (slots.length < 1 || slots.length > 3) this.fail("希望日時は1〜3つで入力してください");
+      if (!admin && this.past(slots)) this.fail("過去の日時は選べません");
+    }
+    if (!admin && ((p.p_duration_min != null && Number(p.p_duration_min) !== b.duration_min) || (p.p_admin_message != null && p.p_admin_message !== b.admin_message) || (p.p_meeting_method != null && p.p_meeting_method !== b.meeting_method))) this.fail("時間・実施方法・連絡事項は管理者のみ変更できます");
+    const dur = p.p_duration_min != null ? Number(p.p_duration_min) : b.duration_min;
+    if (!(dur >= 15 && dur <= 240)) this.fail("時間は15〜240分で指定してください");
+    const msg = p.p_admin_message ?? b.admin_message;
+    if (len(msg) > 1000) this.fail("連絡事項は1000文字以内で入力してください");
+    const method = p.p_meeting_method ?? b.meeting_method;
+    if (!METHOD[method]) this.fail("実施方法は「Larkビデオ会議」か「Larkビデオ通話」を選んでください");
+    const diff = {};
+    if (title !== b.title) diff.title = [b.title, title];
+    if (tog !== b.want_together) diff.want_together = [b.want_together, tog];
+    if (lrn !== b.want_learn) diff.want_learn = [b.want_learn, lrn];
+    if (!this.same(slots, b.preferred_slots)) diff.preferred_slots = [b.preferred_slots, slots];
+    if (dur !== b.duration_min) diff.duration_min = [b.duration_min, dur];
+    if (msg !== b.admin_message) diff.admin_message = [b.admin_message, msg];
+    if (method !== b.meeting_method) diff.meeting_method = [b.meeting_method, method];
+    if (!Object.keys(diff).length) return b;
+    Object.assign(b, { title, want_together: tog, want_learn: lrn, preferred_slots: slots, duration_min: dur, admin_message: msg, meeting_method: method });
+    this.touch(b);
+    this.log(uid, b.student_id, b.id, "edit", diff);
+    return b;
+  }
+  confirm_booking(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("予約の確定は管理者のみ行えます");
+    if (!p.p_scheduled_at) this.fail("確定する日時を選んでください");
+    if (p.p_meeting_method != null && !METHOD[p.p_meeting_method]) this.fail("実施方法は「Larkビデオ会議」か「Larkビデオ通話」を選んでください");
+    const at = new Date(p.p_scheduled_at).toISOString();
+    const b = this.bk(p.p_booking_id);
+    if (b.status === "confirmed" && Date.parse(b.scheduled_at) === Date.parse(at)) return b;
+    this.ver(b, p.p_expected_version);
+    if (b.status !== "requested") this.fail(`「申込中」の予約だけを確定できます（現在：${this.label(b.status)}）`);
+    b.status = "confirmed"; b.scheduled_at = at;
+    if (p.p_duration_min != null) b.duration_min = Number(p.p_duration_min);
+    if (p.p_admin_message != null) b.admin_message = String(p.p_admin_message);
+    b.meeting_method = p.p_meeting_method ?? "lark_meeting";
+    this.touch(b);
+    this.log(uid, b.student_id, b.id, "confirm", { scheduled_at: at, duration_min: b.duration_min, meeting_method: b.meeting_method, from_preferred: b.preferred_slots.some((s) => Date.parse(s) === Date.parse(at)) });
+    return b;
+  }
+  reschedule_booking(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("確定後の日時変更は管理者が行います。受講生は「日時の変更を依頼」してください");
+    const reason = this.needReason(p.p_reason);
+    if (!p.p_new_at) this.fail("新しい日時を入力してください");
+    const to = new Date(p.p_new_at).toISOString();
+    const b = this.bk(p.p_booking_id);
+    if (b.scheduled_at && Date.parse(b.scheduled_at) === Date.parse(to)) return b;
+    this.ver(b, p.p_expected_version);
+    if (b.status !== "confirmed") this.fail(`「確定」の予約だけ日時を変更できます（現在：${this.label(b.status)}）`);
+    const from = b.scheduled_at;
+    b.scheduled_at = to; this.touch(b);
+    this.log(uid, b.student_id, b.id, "reschedule", { from, to }, reason);
+    return b;
+  }
+  request_change(p) {
+    const uid = this.uid(), admin = this.isAdmin();
+    const reason = this.needReason(p.p_reason);
+    const b = this.bk(p.p_booking_id);
+    if (!admin && b.student_id !== uid) this.fail("権限がありません");
+    const slots = this.slots(p.p_slots);
+    if (b.status === "requested" && slots && this.same(b.preferred_slots, slots)) return b;
+    this.ver(b, p.p_expected_version);
+    if (b.status !== "confirmed") this.fail(`「確定」の予約だけ変更を依頼できます（現在：${this.label(b.status)}）`);
+    if (!slots || slots.length < 1 || slots.length > 3) this.fail("希望日時は1〜3つで入力してください");
+    if (!admin && this.past(slots)) this.fail("過去の日時は選べません");
+    const from = b.scheduled_at;
+    Object.assign(b, { status: "requested", scheduled_at: null, preferred_slots: slots });
+    this.touch(b);
+    this.log(uid, b.student_id, b.id, "change_request", { from, slots }, reason);
+    return b;
+  }
+  complete_booking(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("完了の操作は管理者のみ行えます");
+    if (!p.p_request_id) this.fail("操作IDがありません");
+    const b = this.bk(p.p_booking_id);
+    if (this.hasReq(p.p_request_id) || b.status === "completed") return { result: "already_done", remaining: this.balance(b.student_id) };
+    if (b.status !== "confirmed") this.fail(`「確定」の予約だけを完了にできます（現在：${this.label(b.status)}）`);
+    const bal = this.balance(b.student_id);
+    if (bal < 1) this.fail("チケットの残りが0枚のため完了にできません。先にチケットを発行してください");
+    const lid = this.addLedger({ student_id: b.student_id, kind: "consume", delta: -1, booking_id: b.id, reason: "個別コンサル完了", actor_id: uid, request_id: p.p_request_id });
+    Object.assign(b, { status: "completed", ticket_consumed: true, completed_at: this.now() });
+    this.touch(b);
+    this.log(uid, b.student_id, b.id, "complete", { ledger_id: lid, remaining_before: bal, remaining_after: bal - 1 });
+    return { result: "done", remaining: bal - 1 };
+  }
+  undo_completion(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("訂正は管理者のみ行えます");
+    const reason = this.needReason(p.p_reason);
+    if (!p.p_request_id) this.fail("操作IDがありません");
+    const b = this.bk(p.p_booking_id);
+    if (this.hasReq(p.p_request_id)) return { result: "already_done", remaining: this.balance(b.student_id) };
+    if (b.status !== "completed") this.fail(`「完了」の予約ではありません（現在：${this.label(b.status)}）`);
+    this.addLedger({ student_id: b.student_id, kind: "restore", delta: 1, booking_id: b.id, reason: "完了の取り消し：" + reason, actor_id: uid, request_id: p.p_request_id });
+    Object.assign(b, { status: "confirmed", ticket_consumed: false, completed_at: null });
+    this.touch(b);
+    const bal = this.balance(b.student_id);
+    this.log(uid, b.student_id, b.id, "undo_complete", { remaining_after: bal }, reason);
+    return { result: "done", remaining: bal };
+  }
+  cancel_booking(p) {
+    const uid = this.uid(), admin = this.isAdmin();
+    const b = this.bk(p.p_booking_id);
+    if (!admin && b.student_id !== uid) this.fail("権限がありません");
+    if (b.status === "cancelled") return b;
+    if (b.status === "completed") this.fail("完了済みの予約はキャンセルできません。誤って完了にした場合は、管理者が「完了の取り消し」を行います");
+    Object.assign(b, { status_before_cancel: b.status, status: "cancelled", cancelled_at: this.now() });
+    this.touch(b);
+    this.log(uid, b.student_id, b.id, "cancel", { from: b.status_before_cancel }, p.p_reason);
+    return b;
+  }
+  undo_cancellation(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("訂正は管理者のみ行えます");
+    const reason = this.needReason(p.p_reason);
+    const b = this.bk(p.p_booking_id);
+    if (b.status !== "cancelled") return b;
+    const to = b.status_before_cancel === "confirmed" && b.scheduled_at ? "confirmed" : "requested";
+    Object.assign(b, { status: to, status_before_cancel: null, cancelled_at: null });
+    this.touch(b);
+    this.log(uid, b.student_id, b.id, "undo_cancel", { to }, reason);
+    return b;
+  }
+  issue_tickets(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("チケットの発行は管理者のみ行えます");
+    if (!p.p_request_id) this.fail("操作IDがありません");
+    if (this.hasReq(p.p_request_id)) return { result: "already_done", remaining: this.balance(p.p_student_id) };
+    const n = Number(p.p_count);
+    if (!Number.isInteger(n) || n < 1 || n > 100) this.fail("発行枚数は1〜100枚で指定してください");
+    const sp = this.prof(p.p_student_id);
+    if (!sp || sp.role !== "student") this.fail("受講生が見つかりません");
+    this.addLedger({ student_id: sp.id, kind: "issue", delta: n, reason: String(p.p_reason || "").trim() || "ほほえみプレミアム30枚チケット発行", actor_id: uid, request_id: p.p_request_id });
+    const bal = this.balance(sp.id);
+    this.log(uid, sp.id, null, "issue", { count: n, remaining_after: bal }, p.p_reason);
+    return { result: "done", remaining: bal };
+  }
+  adjust_tickets(p) {
+    const uid = this.uid();
+    if (!this.isAdmin()) this.fail("枚数の調整は管理者のみ行えます");
+    const reason = this.needReason(p.p_reason);
+    if (!p.p_request_id) this.fail("操作IDがありません");
+    if (this.hasReq(p.p_request_id)) return { result: "already_done", remaining: this.balance(p.p_student_id) };
+    const d = Number(p.p_delta);
+    if (!Number.isInteger(d) || d === 0 || d < -100 || d > 100) this.fail("調整枚数は -100〜100（0以外）で指定してください");
+    const bal = this.balance(p.p_student_id);
+    if (bal + d < 0) this.fail(`調整後の残数がマイナスになります（現在 ${bal} 枚）`);
+    this.addLedger({ student_id: p.p_student_id, kind: "adjust", delta: d, reason, actor_id: uid, request_id: p.p_request_id });
+    this.log(uid, p.p_student_id, null, "adjust", { delta: d, remaining_after: bal + d }, reason);
+    return { result: "done", remaining: bal + d };
+  }
+  requireAdmin(msg) { if (!this.isAdmin()) this.fail(msg); return this.uid(); }
+  update_profile(p) {
+    const uid = this.requireAdmin("受講生情報の変更は管理者のみ行えます");
+    const pr = this.prof(p.p_user_id);
+    if (!pr) this.fail("ユーザーが見つかりません");
+    if (pr.role === "admin" && p.p_active === false) this.fail("管理者を利用停止にはできません");
+    const name = [...String(p.p_display_name ?? pr.display_name).trim()].slice(0, 40).join("");
+    if (!name) this.fail("お名前を入力してください");
+    const email = p.p_email == null ? pr.email : (String(p.p_email).trim() || null);
+    const diff = {};
+    if (name !== pr.display_name) diff.display_name = [pr.display_name, name];
+    if ((email || null) !== (pr.email || null)) diff.email = [pr.email || "", email || ""];
+    if (p.p_active != null && p.p_active !== pr.active) diff.active = [pr.active, p.p_active];
+    if (!Object.keys(diff).length) return pr;
+    pr.display_name = name; pr.email = email;
+    if (p.p_active != null) pr.active = p.p_active;
+    this.log(uid, pr.role === "student" ? pr.id : null, null, "profile", diff);
+    return pr;
+  }
+  admin_create_student(p) {
+    const uid = this.requireAdmin("受講生の登録は管理者のみ行えます");
+    if (!p.p_request_id) this.fail("操作IDがありません");
+    const ev = this.db.events.find((e) => e.action === "create_student" && e.detail?.request_id === p.p_request_id);
+    if (ev) { const pr = this.prof(ev.student_id); return { id: pr.id, display_name: pr.display_name, access_key: pr.access_key, result: "already_done" }; }
+    const name = [...String(p.p_display_name || "").trim()].slice(0, 40).join("");
+    if (!name) this.fail("お名前を入力してください");
+    const pr = { id: "demo-" + uuid().slice(0, 8), display_name: name, email: String(p.p_email || "").trim() || null, role: "student", active: true, access_key: demoKey(), key_issued_at: this.now(), created_at: this.now() };
+    this.db.profiles.push(pr);
+    this.log(uid, pr.id, null, "create_student", { request_id: p.p_request_id });
+    return { id: pr.id, display_name: pr.display_name, access_key: pr.access_key, result: "done" };
+  }
+  admin_get_key(p) {
+    this.requireAdmin("専用リンクは管理者のみ表示できます");
+    const pr = this.prof(p.p_student_id);
+    if (!pr || pr.role !== "student") this.fail("受講生が見つかりません");
+    return pr.access_key;
+  }
+  admin_reissue_key(p) {
+    const uid = this.requireAdmin("専用リンクの再発行は管理者のみ行えます");
+    const pr = this.prof(p.p_student_id);
+    if (!pr || pr.role !== "student") this.fail("受講生が見つかりません");
+    pr.access_key = demoKey(); pr.key_issued_at = this.now();
+    this.log(uid, pr.id, null, "reissue_key", {}, p.p_reason);
+    return pr.access_key;
+  }
+
+  /* ----- 閲覧（schema.sql のビューと同じ形。受講生には本人の行だけ返す）----- */
+  load() {
+    const me = this.me, admin = this.isAdmin();
+    const vis = (sid) => admin || sid === me.id;
+    const P = Object.fromEntries(this.db.profiles.map((p) => [p.id, p]));
+    const run = {};
+    const ledgerAll = [...this.db.ledger]
+      .sort((a, b) => (a.created_at < b.created_at ? -1 : a.created_at > b.created_at ? 1 : a.id - b.id))
+      .map((l) => { run[l.student_id] = (run[l.student_id] || 0) + l.delta; const { request_id, ...rest } = l; return { ...rest, balance_after: run[l.student_id], actor_name: P[l.actor_id]?.display_name ?? null, actor_role: P[l.actor_id]?.role ?? null }; });
+    const balances = this.db.profiles.filter((p) => p.role === "student" && vis(p.id)).map((p) => {
+      const ls = this.db.ledger.filter((l) => l.student_id === p.id);
+      const sum = (f) => ls.filter(f).reduce((a, l) => a + l.delta, 0);
+      return { student_id: p.id, display_name: p.display_name, ...(admin ? { email: p.email, key_issued_at: p.key_issued_at } : {}), active: p.active, issued: sum((l) => l.kind === "issue"), used: -sum((l) => l.kind === "consume" || l.kind === "restore"), adjusted: sum((l) => l.kind === "adjust"), remaining: sum(() => true) };
+    });
+    const bookings = this.db.bookings.filter((b) => vis(b.student_id)).map((b) => {
+      let c = null;
+      if (b.ticket_consumed) for (const l of ledgerAll) if (l.booking_id === b.id && l.kind === "consume" && (!c || l.id > c.id)) c = l;
+      return { ...b, student_name: P[b.student_id]?.display_name ?? "", consumed_at: c?.created_at ?? null, remaining_after_use: c?.balance_after ?? null };
+    });
+    const events = this.db.events.filter((e) => admin || e.student_id === me.id)
+      .map((e) => ({ ...e, actor_name: P[e.actor_id]?.display_name ?? null, student_name: P[e.student_id]?.display_name ?? null }))
+      .sort((a, b) => b.id - a.id);
+    // 本番と同じく、受講生にはメールアドレス・キーを渡さない。キーは管理者でも admin_get_key でのみ取得
+    const publicProfile = ({ email, access_key, ...p }) => (admin ? { ...p, email } : p);
+    const heartbeat = admin ? new Date(Date.now() - 5 * 3600e3).toISOString() : null;   // デモ用の見本（本番は毎朝の自動アクセスの日時）
+    return clone({ me: publicProfile(me), profiles: this.db.profiles.filter((p) => admin || p.id === me.id || p.role === "admin").map(publicProfile), bookings, balances, ledger: ledgerAll.filter((l) => vis(l.student_id)), events, heartbeat });
+  }
+
+  /* ----- デモ用の見本データ（実在の方のデータではありません）----- */
+  seed() {
+    const db = { ver: 3, profiles: [], bookings: [], ledger: [], events: [], seq: { booking: 0, ledger: 0, event: 0 }, meId: "demo-admin" };
+    this.db = db;
+    const t0 = dayISO(-50, "09:00");
+    const mk = (id, name, email, role) => db.profiles.push({ id, display_name: name, email, role, active: true, created_at: t0, ...(role === "student" ? { access_key: demoKey(), key_issued_at: t0 } : {}) });
+    const A = "demo-admin", Y = "demo-yamada", S = "demo-sato", T = "demo-tanaka";
+    mk(A, "安部さとよ", "admin@example.com", "admin");
+    mk(Y, "山田 花子", "hanako@example.com", "student");
+    mk(S, "佐藤 みどり", "midori@example.com", "student");
+    mk(T, "田中 ゆうこ", "yuko@example.com", "student");
+    const D = dayISO, R = {};
+    const req = (title, tog, lrn, slots) => () => ({ p_title: title, p_want_together: tog, p_want_learn: lrn, p_slots: slots, p_request_id: uuid() });
+    const conf = (k, at, method = "lark_meeting", msg = "") => () => ({ p_booking_id: R[k].id, p_expected_version: R[k].version, p_scheduled_at: at, p_duration_min: 60, p_admin_message: msg, p_meeting_method: method });
+    const done = (k) => () => ({ p_booking_id: R[k].id, p_request_id: uuid() });
+    const issue = (sid) => () => ({ p_student_id: sid, p_count: 30, p_reason: "ほほえみプレミアム30枚チケット", p_request_id: uuid() });
+    const ops = [
+      [D(-42, "09:00"), A, "issue_tickets", issue(Y)],
+      [D(-42, "09:05"), A, "issue_tickets", issue(S)],
+      [D(-41, "20:15"), Y, "request_booking", req("個別支援計画の文例づくり", "支援目標の文例をAIと一緒に作るところを、画面を見ながら一緒にやってほしいです。", "AIへの頼み方のコツ（どこまで具体的に書けばいいか）", [D(-35, "10:00"), D(-34, "14:00")]), "y1"],
+      [D(-40, "09:30"), A, "confirm_booking", conf("y1", D(-35, "10:00"), "lark_meeting", "使っている文例があれば、事前にLarkのチャットでお送りください。")],
+      [D(-35, "11:05"), A, "complete_booking", done("y1")],
+      [D(-33, "19:40"), S, "request_booking", req("保護者向けおたよりの作成", "毎月のおたよりをAIで下書きする流れを一緒に作りたいです。", "写真の扱いと個人情報で気をつけること", [D(-28, "13:30")]), "s1"],
+      [D(-32, "10:00"), A, "confirm_booking", conf("s1", D(-28, "13:30"))],
+      [D(-28, "14:40"), A, "complete_booking", done("s1")],
+      [D(-27, "08:30"), Y, "request_booking", req("連絡帳の書き方の見直し", "実際の連絡帳（名前は伏せます）を一緒に読み直して、伝わる書き方に整えたいです。", "ポジティブな伝え方への言い換え", [D(-21, "10:00"), D(-20, "10:00")]), "y2"],
+      [D(-26, "09:10"), A, "confirm_booking", conf("y2", D(-20, "10:00"))],
+      [D(-20, "11:00"), A, "complete_booking", done("y2")],
+      [D(-19, "22:10"), Y, "request_booking", req("研修資料のスライド化", "園内研修の資料をスライドにまとめたいです。", "見やすいスライドの作り方", [D(-12, "10:00")]), "y6"],
+      [D(-17, "12:00"), Y, "cancel_booking", () => ({ p_booking_id: R.y6.id, p_reason: "職場の行事と重なったため" })],
+      [D(-15, "20:00"), Y, "request_booking", req("ブレインジムの声かけを記録に残す方法", "活動記録のテンプレートを一緒に作ってほしいです。", "子どもの様子を短く書くコツ", [D(-10, "10:00"), D(-9, "13:30")]), "y3"],
+      [D(-14, "09:00"), A, "confirm_booking", conf("y3", D(-10, "10:00"))],
+      [D(-12, "18:00"), A, "reschedule_booking", () => ({ p_booking_id: R.y3.id, p_expected_version: R.y3.version, p_new_at: D(-9, "13:30"), p_reason: "受講生さんからLarkのチャットで変更のご連絡があったため" })],
+      [D(-9, "09:00"), A, "issue_tickets", issue(T)],
+      [D(-9, "14:45"), A, "complete_booking", done("y3")],
+      [D(-8, "21:30"), S, "request_booking", req("勤務表アプリの使い方", "来月分の勤務表を一緒に作りながら操作を覚えたいです。", "希望休の集め方", [D(-5, "13:30")]), "s2"],
+      [D(-7, "10:00"), A, "confirm_booking", conf("s2", D(-5, "13:30"), "lark_meeting", "勤務表アプリを画面共有しながら一緒に操作します。パソコンからご参加ください。")],
+      [D(-6, "19:00"), S, "request_booking", req("行事の案内文をAIで作る", "運動会の案内文を一緒に作ってみたいです。", "保護者にやさしく伝わる言い回し", [D(2, "10:00"), D(3, "10:00")]), "s3"],
+      [D(-5, "09:00"), A, "confirm_booking", conf("s3", D(2, "10:00"), "lark_call")],
+      [D(-5, "14:35"), A, "complete_booking", done("s2")],
+      [D(-5, "14:36"), A, "complete_booking", done("s3")],
+      [D(-5, "14:50"), A, "undo_completion", () => ({ p_booking_id: R.s3.id, p_reason: "直前の「勤務表アプリの使い方」と取り違えて完了にしたため", p_request_id: uuid() })],
+      [D(-4, "21:00"), Y, "request_booking", req("ケース会議の議事録をAIでまとめる", "録音から議事録を作る手順を一緒に試したいです。", "要約の精度を上げる指示の出し方", [D(4, "10:00"), D(5, "14:00")]), "y4"],
+      [D(-3, "10:00"), A, "confirm_booking", conf("y4", D(4, "10:00"), "lark_call")],
+      [D(-2, "16:20"), A, "reschedule_booking", () => ({ p_booking_id: R.y4.id, p_expected_version: R.y4.version, p_new_at: D(6, "13:30"), p_reason: "講師の研修日と重なったため（受講生さんにLarkのチャットで了承済み）" })],
+      [D(-2, "12:30"), S, "request_booking", req("おたよりテンプレートの改善", "前回作ったおたよりのテンプレートを、季節ごとに使い回せる形にしたいです。", "AIに毎回同じ形式で書いてもらう方法", [D(7, "13:30"), D(8, "10:00")]), "s4"],
+      [D(-1, "08:00"), T, "request_booking", req("はじめてのAI活用相談", "何から始めればいいか、一緒に整理してほしいです。", "職場で安全に使うためのルール作り", [D(5, "15:00")]), "t1"],
+      [D(-1, "22:05"), Y, "request_booking", req("ホームプレイ日報の活用", "日報アプリを保護者さんに渡す前に、一緒に設定を確認したいです。", "保護者さんへの案内文の書き方", [D(9, "10:00"), D(10, "15:00"), D(11, "10:00")]), "y5"],
+    ].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+    for (const [t, as, fn, pf, label] of ops) {
+      this.clock = t; db.meId = as;
+      const r = this[fn](pf());
+      if (label) R[label] = r;
+      this.integrity();
+    }
+    this.clock = null; db.meId = A;
+    return db;
+  }
+}
+
+/* =====================================================================
+   データの出入口（デモ／Supabase を同じ形で扱う）
+   ===================================================================== */
+function friendly(err) {
+  const m = String(err?.message || err || "");
+  if (/permission denied|not authorized|JWT/i.test(m)) return api.mode === "student" ? "この操作はできません。画面を更新してから、もう一度お試しください" : "この操作の権限がありません。もう一度ログインしてお試しください";
+  if (/Failed to fetch|NetworkError|network/i.test(m)) return "通信できませんでした。電波の良い場所で、もう一度お試しください";
+  return m || "うまく処理できませんでした";
+}
+function loadScript(src) {
+  return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("必要なファイルを読み込めませんでした")); document.head.appendChild(s); });
+}
+/* mode: "demo" | "student"（専用リンク） | "admin"（管理者ログイン） | "unconfigured"（準備中） */
+const api = {
+  mode: "demo", server: null, sb: null, key: null,
+  async init() {
+    if (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_KEY) {
+      await loadScript(SUPABASE_JS);
+      this.key = readKeyFromHash();
+      if (this.key || hasHashKey()) {
+        // 受講生：ログインの記録を一切使わない（同じ端末で管理者がログインしていても、受講生の画面として動く）
+        this.mode = "student";
+        this.sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
+      } else {
+        this.mode = "admin";
+        this.sb = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+      }
+    } else if (CONFIG.DEMO) {
+      this.mode = "demo";
+      this.server = new DemoServer();
+    } else {
+      this.mode = "unconfigured";
+    }
+  },
+  async load() {
+    if (this.mode === "demo") { await sleep(80); return this.server.load(); }
+    if (this.mode === "student") {
+      if (!this.key) throw new Error("このリンクは使えません。Larkのチャットで届いた最新のリンクから開いてください");
+      const { data: d, error } = await this.sb.rpc("student_load", { p_key: this.key });
+      if (error) throw new Error(friendly(error));
+      const me = d.me;
+      return { me, profiles: [me, ...(d.admins || [])], bookings: d.bookings || [], balances: d.balance ? [d.balance] : [], ledger: d.ledger || [], events: d.events || [] };
+    }
+    const { data: { user } } = await this.sb.auth.getUser();
+    if (!user) return null;
+    const q = async (pr) => { const { data, error } = await pr; if (error) throw new Error(friendly(error)); return data; };
+    const profiles = await q(this.sb.from("profiles").select("id,auth_user_id,display_name,email,role,active,created_at"));
+    const me = profiles.find((p) => p.auth_user_id === user.id && p.role === "admin");
+    if (!me) { const e = new Error("このアカウントは管理者として登録されていません"); e.notAdmin = true; throw e; }
+    const [bookings, balances, ledger, events, hb] = await Promise.all([
+      q(this.sb.from("v_bookings").select("*").order("created_at", { ascending: false }).limit(1000)),
+      q(this.sb.from("v_balances").select("*")),
+      q(this.sb.from("v_ledger").select("*").order("id", { ascending: false }).limit(1000)),
+      q(this.sb.from("v_events").select("*").order("id", { ascending: false }).limit(1000)),
+      q(this.sb.from("heartbeat").select("last_ping")),
+    ]);
+    return { me, profiles, bookings, balances, ledger, events, heartbeat: hb?.[0]?.last_ping || null };
+  },
+  async call(fn, params) {
+    if (this.mode === "demo") { await sleep(300); return this.server.call(fn, params); }
+    const p = { ...params };
+    if (STUDENT_FNS.includes(fn)) p.p_key = this.mode === "student" ? this.key : null;
+    const { data, error } = await this.sb.rpc(fn, p);
+    if (error) throw new Error(friendly(error));
+    return data;
+  },
+};
+
+/* =====================================================================
+   画面
+   ===================================================================== */
+const state = {
+  data: null, mode: "loading", fatal: null, tab: "bookings",
+  f: { q: "", status: "all", student: "all", period: "all", sort: "attention" },
+  af: { q: "", student: "all", action: "all" },
+  sheet: null, busy: false, login: { sent: false, email: "" }, resetArmed: false,
+};
+const D = () => state.data;
+const isAdmin = () => D()?.me?.role === "admin";
+const balOf = (sid) => D().balances.find((b) => b.student_id === sid) || { student_id: sid, issued: 0, used: 0, adjusted: 0, remaining: 0, display_name: "", active: true };
+const bookingById = (id) => D().bookings.find((b) => b.id === id);
+const nameOf = (id) => D().profiles.find((p) => p.id === id)?.display_name || D().balances.find((b) => b.student_id === id)?.display_name || "";
+const students = () => D().balances.slice().sort((a, b) => a.display_name.localeCompare(b.display_name, "ja"));
+const keyDate = (b) => b.scheduled_at || (b.preferred_slots || [])[0] || b.created_at;
+const openCount = (sid) => D().bookings.filter((b) => b.student_id === sid && (b.status === "requested" || b.status === "confirmed")).length;
+const byLedger = (a, b) => (a.created_at < b.created_at ? -1 : a.created_at > b.created_at ? 1 : a.id - b.id);
+
+const SMILE = `<svg viewBox="0 0 32 32" aria-hidden="true"><circle class="face" cx="16" cy="16" r="15"/><circle class="eye" cx="11" cy="13" r="2.1"/><circle class="eye" cx="21" cy="13" r="2.1"/><path class="mouth" d="M9.5 18.5c1.6 3 4 4.5 6.5 4.5s4.9-1.5 6.5-4.5" stroke-width="2.3" fill="none" stroke-linecap="round"/></svg>`;
+const SEARCH_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>`;
+
+function render() {
+  const app = $("#app");
+  if (api.mode === "unconfigured") { app.innerHTML = notReadyHTML(); return; }
+  if (state.fatal) { app.innerHTML = fatalHTML(); return; }
+  if (state.mode === "login") { app.innerHTML = loginHTML(); return; }
+  if (!D()) { app.innerHTML = `<div class="center-card"><p>読み込み中…</p></div>`; return; }
+  const admin = isAdmin();
+  const footNote = api.mode === "demo" ? "　これは試作品（デモ）です。データはこのブラウザの中にだけ保存され、他の人とは共有されません。"
+    : api.mode === "student" ? "　ご不明な点は、Larkのチャットでお問い合わせください。このページはご本人専用です。" : "";
+  app.innerHTML = `${headerHTML()}<main class="wrap main ${admin ? "is-admin" : ""}">${api.mode === "demo" ? demoBannerHTML() : ""}${admin ? adminHTML() : studentHTML()}</main>
+    <footer class="wrap foot">日時はすべて日本時間（JST）で表示・入力します。${footNote}</footer>`;
+  renderSheet();
+}
+
+function headerHTML() {
+  const me = D().me;
+  let who = `<span class="who-name">${esc(me.display_name)} さん</span><span class="role ${me.role === "admin" ? "admin" : ""}">${me.role === "admin" ? "管理者" : "受講生"}</span>`;
+  if (api.mode === "demo") {
+    const ps = api.server.db.profiles;
+    who += `<label class="sr" for="demo-user">表示する人を切り替え（デモ）</label><select id="demo-user" data-change="demo-user">${ps.map((p) => `<option value="${esc(p.id)}"${p.id === me.id ? " selected" : ""}>${p.role === "admin" ? "管理者：" : "受講生："}${esc(p.display_name)}</option>`).join("")}</select>`;
+  } else if (api.mode === "student") {
+    who += `<button class="btn ghost small" data-act="reload">最新にする</button>`;
+  } else {
+    who += `<button class="btn ghost small" data-act="reload">最新にする</button><button class="btn ghost small" data-act="logout">ログアウト</button>`;
+  }
+  return `<header class="top"><div class="wrap"><div class="brand"><span class="logo">${SMILE}</span><div><div class="brand-name">ほほえみプレミアム</div><div class="brand-sub">30枚チケット／個別コンサル予約管理</div></div></div><div class="who">${who}</div></div></header>`;
+}
+
+function demoBannerHTML() {
+  return `<div class="demo" role="note"><p><b>試作品（デモ）</b>　データはこの端末のブラウザの中だけに保存されます。右上で「管理者」と「受講生」を切り替えて試せます。本番では、受講生は一人ずつの専用リンク、管理者はメールログインで使います。</p>
+    <button class="btn ghost small" data-act="demo-reset">${state.resetArmed ? "本当に見本データに戻す" : "見本データに戻す"}</button></div>`;
+}
+
+/* ---------- 受講生の画面 ---------- */
+function studentHTML() {
+  const me = D().me, bal = balOf(me.id), open = openCount(me.id);
+  return `${ticketHTML(me.id, bal, open)}${nextHTML()}
+    <div class="tabs" role="tablist">${tabBtn("bookings", "ご予約一覧")}${tabBtn("ledger", "チケット利用履歴")}</div>
+    ${state.tab === "ledger" ? `<section class="sec"><div class="sec-head"><h2>チケット利用履歴</h2></div>${ledgerHTML(me.id)}</section>` : bookingsSecHTML()}`;
+}
+function tabBtn(id, label) { return `<button class="tab" role="tab" aria-selected="${state.tab === id}" data-act="tab" data-tab="${id}">${label}</button>`; }
+
+function ticketHTML(sid, bal, open) {
+  const total = Math.max(bal.remaining + bal.used, 0);
+  const usedDates = D().bookings.filter((b) => b.student_id === sid && b.ticket_consumed && b.consumed_at).map((b) => b.consumed_at).sort();
+  let cells = "";
+  for (let i = 0; i < total; i++) {
+    if (i < bal.used) { const d = usedDates[i]; cells += `<span class="stamp used" title="${d ? fmtStamp(d) + " 使用" : "使用済み"}">${SMILE}</span>`; }
+    else cells += `<span class="stamp" aria-hidden="true">${i + 1}</span>`;
+  }
+  return `<section class="ticket" aria-label="チケットの残り">
+    <div class="ticket-head">
+      <div><p class="eyebrow">ほほえみプレミアム 30枚チケット</p><p class="remain"><span class="num">${bal.remaining}</span><span class="unit">枚</span><span class="of">のこり</span></p></div>
+      <dl class="tstats"><div><dt>発行</dt><dd>${bal.issued + Math.max(bal.adjusted, 0)}</dd></div><div><dt>使用</dt><dd>${bal.used}</dd></div><div><dt>予約中</dt><dd>${open}</dd></div></dl>
+    </div>
+    ${total ? `<div class="stamps" role="img" aria-label="${total}枚中${bal.used}枚使用">${cells}</div>` : `<p class="muted">まだチケットが発行されていません。管理者からの発行をお待ちください。</p>`}
+    <div class="ticket-foot"><p>申込み・確定・日時の変更・キャンセルでは減りません。コンサルが「完了」になったときに1枚使います。</p>
+      <button class="btn primary" data-act="new-booking">個別コンサルを申し込む</button></div>
+  </section>`;
+}
+function nextAppt(sid) {
+  const now = Date.now();
+  return D().bookings.filter((b) => (!sid || b.student_id === sid) && b.status === "confirmed" && Date.parse(b.scheduled_at) + b.duration_min * 60e3 > now)
+    .sort((a, b) => Date.parse(a.scheduled_at) - Date.parse(b.scheduled_at))[0];
+}
+function nextHTML() {
+  const b = nextAppt(D().me.id);
+  if (!b) return "";
+  return `<section class="next" aria-label="次のご予約"><div><p class="eyebrow">次のご予約（確定）</p><p class="when num">${fmtWhen(b.scheduled_at)}<span class="muted" style="font-size:.85rem;font-weight:500">　${b.duration_min}分・${methodLabel(b.meeting_method)}</span></p><p>${esc(b.title)}</p><p class="msg">${methodNote(b.meeting_method)}</p>${b.admin_message ? `<p class="msg">連絡事項：${esc(b.admin_message)}</p>` : ""}</div>
+    <button class="btn ghost" data-act="open-booking" data-id="${b.id}">詳しく見る</button></section>`;
+}
+
+/* ---------- 管理者の画面 ---------- */
+function adminHTML() {
+  const bs = D().bookings, now = Date.now(), m = jst(nowISO());
+  const pending = bs.filter((b) => b.status === "requested").length;
+  const upcoming = bs.filter((b) => b.status === "confirmed" && Date.parse(b.scheduled_at) >= startOfTodayMs()).length;
+  const doneMonth = bs.filter((b) => b.status === "completed" && b.consumed_at && jst(b.consumed_at).y === m.y && jst(b.consumed_at).m === m.m).length;
+  const nx = nextAppt(null);
+  return `<div class="summary">
+      <button class="chip-stat ${pending ? "alert" : ""}" data-act="quick" data-q="pending">確定待ちの申込み <b>${pending}</b>件</button>
+      <button class="chip-stat" data-act="quick" data-q="upcoming">これからの確定 <b>${upcoming}</b>件</button>
+      <button class="chip-stat" data-act="quick" data-q="done">今月の完了 <b>${doneMonth}</b>件</button>
+      ${nx ? `<button class="chip-stat" data-act="open-booking" data-id="${nx.id}">次の予定：<span class="num">${fmtShort(nx.scheduled_at)}</span>　${esc(nx.student_name)} さん（${methodShort(nx.meeting_method)}）</button>` : ""}
+      ${heartbeatChipHTML()}
+    </div>
+    <div class="tabs" role="tablist">${tabBtn("bookings", "予約一覧")}${tabBtn("students", "受講生とチケット")}${tabBtn("audit", "操作履歴（監査）")}</div>
+    ${state.tab === "students" ? studentsHTML() : state.tab === "audit" ? auditHTML() : bookingsSecHTML()}`;
+}
+
+/* 毎日の自動アクセス（データベースが止まらないための仕組み）が動いているか */
+function heartbeatChipHTML() {
+  const hb = D().heartbeat;
+  const stale = !hb || Date.now() - Date.parse(hb) > 48 * 3600e3;
+  const text = !hb ? "自動アクセス：まだ設定されていません" : `自動アクセス：<span class="num">${fmtShort(hb)}</span>${stale ? "（2日以上ありません）" : ""}`;
+  return `<span class="chip-stat plain ${stale ? "alert" : ""}" title="毎日1回、Googleのスクリプトが自動でアクセスして、データベースが止まらないようにしています">${text}</span>`;
+}
+
+/* ---------- 予約一覧（受講生・管理者 共通）---------- */
+function bookingsSecHTML() {
+  const admin = isAdmin();
+  return `<section class="sec" aria-labelledby="bk-h">
+    <div class="sec-head"><h2 id="bk-h">${admin ? "予約一覧" : "ご予約一覧"}</h2>${admin ? `<button class="btn soft small" data-act="new-booking">代理で申込みを入力</button>` : ""}</div>
+    ${filtersHTML()}
+    <div id="list">${listHTML()}</div>
+  </section>`;
+}
+function baseFiltered() {
+  const f = state.f, q = f.q.trim().toLowerCase(), t0 = startOfTodayMs();
+  return D().bookings.filter((b) => {
+    if (f.student !== "all" && b.student_id !== f.student) return false;
+    if (f.period === "upcoming" && Date.parse(keyDate(b)) < t0) return false;
+    if (f.period === "past" && Date.parse(keyDate(b)) >= t0) return false;
+    if (q) { const hay = [b.title, b.want_together, b.want_learn, b.student_name, b.admin_message, "#" + b.booking_no].join(" ").toLowerCase(); if (!q.split(/\s+/).every((w) => hay.includes(w))) return false; }
+    return true;
+  });
+}
+function sortBookings(list) {
+  const rank = { requested: 0, confirmed: 1, completed: 2, cancelled: 3 };
+  const s = state.f.sort;
+  return list.sort((a, b) => {
+    const da = Date.parse(keyDate(a)), db = Date.parse(keyDate(b));
+    if (s === "new") return db - da;
+    if (s === "old") return da - db;
+    if (rank[a.status] !== rank[b.status]) return rank[a.status] - rank[b.status];
+    return rank[a.status] <= 1 ? da - db : db - da;
+  });
+}
+function filtersHTML() {
+  const base = baseFiltered(), f = state.f, admin = isAdmin();
+  const cnt = (s) => base.filter((b) => s === "all" || b.status === s).length;
+  const chips = ["all", "requested", "confirmed", "completed", "cancelled"].map((s) => `<button class="fchip" aria-pressed="${f.status === s}" data-act="fstatus" data-v="${s}">${s === "all" ? "すべて" : STATUS[s].label}<span class="c">${cnt(s)}</span></button>`).join("");
+  return `<div class="filters">
+    <div class="f-row"><div class="search">${SEARCH_ICON}<label class="sr" for="f-q">キーワードで探す</label><input id="f-q" type="search" placeholder="${admin ? "名前・相談内容・予約番号で探す" : "相談内容で探す"}" value="${esc(f.q)}" data-input="fq"></div>
+      ${admin ? `<label class="sr" for="f-student">受講生</label><select id="f-student" data-change="fstudent"><option value="all">受講生：全員</option>${students().map((s) => `<option value="${esc(s.student_id)}"${f.student === s.student_id ? " selected" : ""}>${esc(s.display_name)}</option>`).join("")}</select>` : ""}
+      <label class="sr" for="f-period">期間</label><select id="f-period" data-change="fperiod"><option value="all"${f.period === "all" ? " selected" : ""}>期間：すべて</option><option value="upcoming"${f.period === "upcoming" ? " selected" : ""}>今日以降</option><option value="past"${f.period === "past" ? " selected" : ""}>昨日まで</option></select>
+      <label class="sr" for="f-sort">並び順</label><select id="f-sort" data-change="fsort"><option value="attention"${f.sort === "attention" ? " selected" : ""}>対応が必要な順</option><option value="new"${f.sort === "new" ? " selected" : ""}>日時が新しい順</option><option value="old"${f.sort === "old" ? " selected" : ""}>日時が古い順</option></select>
+    </div>
+    <div class="f-row" role="group" aria-label="状態で絞り込み">${chips}</div>
+  </div>`;
+}
+function listHTML() {
+  const admin = isAdmin();
+  const rows = sortBookings(baseFiltered().filter((b) => state.f.status === "all" || b.status === state.f.status));
+  if (!rows.length) {
+    const any = D().bookings.length > 0;
+    return `<div class="empty"><p>${any ? "条件に合う予約はありません。" : admin ? "まだ予約はありません。" : "まだご予約はありません。上の「個別コンサルを申し込む」から申し込めます。"}</p>${any ? `<button class="btn ghost small" data-act="clear-filters">絞り込みを解除</button>` : ""}</div>`;
+  }
+  const head = `<div class="list-head" aria-hidden="true"><span>日時（日本時間）</span>${admin ? "<span>受講生</span>" : ""}<span>相談内容</span><span>状態</span><span style="text-align:right">使用</span><span style="text-align:right">残り</span></div>`;
+  return `${head}<div class="list">${rows.map(rowHTML).join("")}</div>`;
+}
+function rowHTML(b) {
+  const admin = isAdmin();
+  let main, sub;
+  if (b.scheduled_at) { main = fmtShort(b.scheduled_at); sub = `${b.duration_min}分・${methodShort(b.meeting_method)}`; }
+  else { const s = b.preferred_slots || []; main = fmtShort(s[0]); sub = s.length > 1 ? `第1希望（ほか${s.length - 1}件）` : "希望日時"; }
+  const bal = balOf(b.student_id).remaining;
+  const used = b.ticket_consumed ? `<span class="lbl">使用</span><b>1</b>枚` : `<span class="lbl">使用</span><span class="muted" aria-label="未使用">—</span>`;
+  const left = b.ticket_consumed && b.remaining_after_use != null
+    ? `<span class="lbl">残り</span><b>${b.remaining_after_use}</b>枚<span class="snap">この時点</span>`
+    : `<span class="lbl">残り</span><span class="now">現在 ${bal}枚</span>`;
+  return `<button type="button" class="row is-${b.status}" data-act="open-booking" data-id="${b.id}">
+    <span class="c-when"><span class="w">${esc(main)}</span><span class="s">${esc(sub)}</span></span>
+    ${admin ? `<span class="c-who">${esc(b.student_name)}</span>` : ""}
+    <span class="c-title">${esc(b.title)}</span>
+    <span class="c-status">${pill(b.status)}</span>
+    <span class="c-tix"><span class="c-used">${used}</span><span class="c-left">${left}</span></span>
+  </button>`;
+}
+
+/* ---------- 受講生とチケット（管理者）---------- */
+function studentsHTML() {
+  const list = students();
+  return `<section class="sec" aria-labelledby="st-h"><div class="sec-head"><h2 id="st-h">受講生とチケット</h2><button class="btn soft small" data-act="add-student">受講生を追加</button></div>
+    ${list.length ? `<div class="students">${list.map((s) => {
+      const total = Math.max(s.remaining + s.used, 1);
+      return `<button type="button" class="stu" data-act="open-student" data-id="${esc(s.student_id)}">
+        <span class="stu-top"><span class="stu-name">${esc(s.display_name)}</span><span class="stu-rem">${s.remaining}<small>枚のこり</small></span></span>
+        <span class="meter" aria-hidden="true"><i style="width:${Math.round((s.used / total) * 100)}%"></i></span>
+        <span class="stu-meta"><span>発行 ${s.issued}</span><span>使用 ${s.used}</span>${s.adjusted ? `<span>調整 ${signed(s.adjusted)}</span>` : ""}<span>予約中 ${openCount(s.student_id)}</span>${s.active ? "" : `<span class="pill st-cancelled">利用停止中</span>`}</span>
+      </button>`; }).join("")}</div>` : `<div class="empty"><p>まだ受講生が登録されていません。</p></div>`}
+  </section>`;
+}
+
+function ledgerHTML(sid) {
+  const rows = D().ledger.filter((l) => l.student_id === sid).sort(byLedger);
+  if (!rows.length) return `<div class="empty"><p>まだ記録はありません。</p></div>`;
+  const bmap = Object.fromEntries(D().bookings.map((b) => [b.id, b]));
+  return `<div class="ledger"><div class="lg-row head"><span>日時</span><span>内容</span><span style="text-align:right">増減</span><span style="text-align:right">残り</span></div>
+    ${rows.map((l) => {
+      const b = l.booking_id ? bmap[l.booking_id] : null;
+      return `<div class="lg-row"><span class="lg-when">${fmtStamp(l.created_at)}</span>
+        <span class="lg-what"><span class="t">${KIND[l.kind] || esc(l.kind)}</span>${b ? `　<button class="btn link" data-act="open-booking" data-id="${b.id}">${esc(b.title)}</button>` : ""}
+          ${l.reason && l.kind !== "consume" ? `<span class="r" style="display:block">${esc(l.reason)}</span>` : ""}
+          <span class="r" style="display:block">${l.actor_role === "admin" ? "操作：" + esc(l.actor_name || "管理者") : ""}</span></span>
+        <span class="lg-delta ${l.delta < 0 ? "minus" : "plus"}">${signed(l.delta)}</span><span class="lg-bal">${l.balance_after}枚</span></div>`;
+    }).join("")}</div>`;
+}
+
+/* ---------- 操作履歴（監査）---------- */
+function evText(e) {
+  const d = e.detail || {}, slots = (a) => (a || []).map(fmtShort).join("、");
+  switch (e.action) {
+    case "request": return `申込み（希望：${slots(d.slots)}）`;
+    case "edit": return `内容を編集（${Object.keys(d).map((k) => FIELD[k] || k).join("・")}）`;
+    case "confirm": return `予約を確定：${fmtWhen(d.scheduled_at)}（${d.duration_min}分${d.meeting_method ? "・" + methodLabel(d.meeting_method) : ""}）${d.from_preferred === false ? "　※希望以外の日時" : ""}`;
+    case "reschedule": return `日時を変更：${fmtShort(d.from)} → ${fmtShort(d.to)}`;
+    case "change_request": return `日時の変更を依頼（確定していた日時：${fmtShort(d.from)}／新しい希望：${slots(d.slots)}）`;
+    case "complete": return `完了：チケットを1枚使用（残り ${d.remaining_before} → ${d.remaining_after}枚）`;
+    case "undo_complete": return `完了を取り消し：チケットを1枚戻す（残り ${d.remaining_after}枚）`;
+    case "cancel": return "キャンセル（チケットは使っていません）";
+    case "undo_cancel": return `キャンセルを取り消し（「${STATUS[d.to]?.label || d.to}」に戻す）`;
+    case "issue": return `チケットを${d.count}枚発行（残り ${d.remaining_after}枚）`;
+    case "adjust": return `枚数を調整：${signed(d.delta)}枚（残り ${d.remaining_after}枚）`;
+    case "profile": return Object.entries(d).map(([k, v]) => (k === "active" ? (v[1] ? "利用を再開" : "利用を停止") : `${FIELD[k] || k}を変更：${v[0]} → ${v[1]}`)).join("／");
+    case "create_student": return "受講生として登録（専用リンクを発行）";
+    case "reissue_key": return "専用リンクを再発行（古いリンクは使えなくなりました）";
+    default: return e.action;
+  }
+}
+function diffHTML(e) {
+  if (e.action !== "edit") return "";
+  const items = Object.entries(e.detail || {}).map(([k, v]) => {
+    const name = FIELD[k] || k;
+    if (k === "preferred_slots") return `<li>${name}：${esc((v[0] || []).map(fmtShort).join("、"))} → ${esc((v[1] || []).map(fmtShort).join("、"))}</li>`;
+    if (k === "duration_min") return `<li>${name}：${esc(v[0])}分 → ${esc(v[1])}分</li>`;
+    if (k === "meeting_method") return `<li>${name}：${methodLabel(v[0])} → ${methodLabel(v[1])}</li>`;
+    if (LONG_FIELDS.includes(k)) return `<li><details><summary>${name}の変更前・変更後を見る</summary><p class="muted">変更前</p><pre>${esc(v[0]) || "（空欄）"}</pre><p class="muted">変更後</p><pre>${esc(v[1]) || "（空欄）"}</pre></details></li>`;
+    return `<li>${name}：${esc(v[0])} → ${esc(v[1])}</li>`;
+  }).join("");
+  return items ? `<ul class="diff">${items}</ul>` : "";
+}
+function actorText(e) { return `${esc(e.actor_name || "（不明）")}${e.actor_role === "admin" ? "（管理者）" : e.actor_role === "student" ? "（受講生）" : ""}`; }
+function auditFiltered() {
+  const af = state.af, q = af.q.trim().toLowerCase();
+  const bmap = Object.fromEntries(D().bookings.map((b) => [b.id, b]));
+  return D().events.slice().sort((a, b) => b.id - a.id).filter((e) => {
+    if (af.student !== "all" && e.student_id !== af.student) return false;
+    if (af.action !== "all" && e.action !== af.action) return false;
+    if (q) { const hay = [evText(e), e.actor_name, e.student_name, e.reason, bmap[e.booking_id]?.title].join(" ").toLowerCase(); if (!q.split(/\s+/).every((w) => hay.includes(w))) return false; }
+    return true;
+  });
+}
+function auditHTML() {
+  const af = state.af;
+  return `<section class="sec" aria-labelledby="au-h"><div class="sec-head"><h2 id="au-h">操作履歴（監査）</h2><p class="hint">いつ・誰が・何をしたかの記録です。記録は変更・削除できません。訂正も新しい記録として残ります。</p></div>
+    <div class="filters"><div class="f-row">
+      <div class="search">${SEARCH_ICON}<label class="sr" for="a-q">キーワード</label><input id="a-q" type="search" placeholder="名前・内容・理由で探す" value="${esc(af.q)}" data-input="aq"></div>
+      <label class="sr" for="a-student">受講生</label><select id="a-student" data-change="astudent"><option value="all">受講生：全員</option>${students().map((s) => `<option value="${esc(s.student_id)}"${af.student === s.student_id ? " selected" : ""}>${esc(s.display_name)}</option>`).join("")}</select>
+      <label class="sr" for="a-action">操作の種類</label><select id="a-action" data-change="aaction"><option value="all">操作：すべて</option>${Object.entries(ACTIONS).map(([k, v]) => `<option value="${k}"${af.action === k ? " selected" : ""}>${v}</option>`).join("")}</select>
+    </div></div>
+    <div id="audit-list">${auditListHTML()}</div></section>`;
+}
+function auditListHTML() {
+  const rows = auditFiltered();
+  if (!rows.length) return `<div class="empty"><p>条件に合う記録はありません。</p></div>`;
+  const bmap = Object.fromEntries(D().bookings.map((b) => [b.id, b]));
+  return `<ol class="events">${rows.slice(0, 400).map((e) => {
+    const b = e.booking_id ? bmap[e.booking_id] : null;
+    return `<li class="ev"><time datetime="${esc(e.at)}">${fmtStamp(e.at)}</time><div class="ev-body">
+      <span class="ev-who">${actorText(e)}${e.student_name && e.student_id !== e.actor_id ? `　→ ${esc(e.student_name)} さん` : ""}</span>
+      <span class="ev-what">${esc(evText(e))}</span>${diffHTML(e)}
+      ${e.reason ? `<span class="ev-reason">理由：${esc(e.reason)}</span>` : ""}
+      ${b ? `<span class="ev-link"><button class="btn link" data-act="open-booking" data-id="${b.id}">予約 #${b.booking_no}「${esc(b.title)}」を開く</button></span>` : ""}
+    </div></li>`; }).join("")}</ol>${rows.length > 400 ? `<p class="hint">新しい順に400件まで表示しています。条件で絞り込んでください。</p>` : ""}`;
+}
+
+/* =====================================================================
+   シート（詳細・操作）
+   ===================================================================== */
+function renderSheet() {
+  const root = $("#sheet-root"), s = state.sheet;
+  if (!s || !D()) { root.innerHTML = ""; document.body.classList.remove("lock"); return; }
+  document.body.classList.add("lock");
+  let inner = "";
+  if (s.type === "booking") inner = bookingSheetHTML(s);
+  else if (s.type === "new") inner = newBookingHTML(s);
+  else if (s.type === "student") inner = studentSheetHTML(s);
+  else if (s.type === "add-student") inner = addStudentHTML();
+  root.innerHTML = `<div class="backdrop" data-act="close-sheet"></div><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><button type="button" class="sheet-x" data-act="close-sheet" aria-label="閉じる">×</button>${inner}</div>`;
+  const f = root.querySelector("[data-autofocus]") || root.querySelector("#sheet-title");
+  if (f) f.focus({ preventScroll: true });
+}
+function openSheet(sheet) { state.sheet = sheet; renderSheet(); }
+
+function bookingSheetHTML(s) {
+  const b = bookingById(s.id);
+  if (!b) return `<h2 id="sheet-title" tabindex="-1">予約が見つかりません</h2>`;
+  if (s.panel) return panelHTML(b, s);
+  const admin = isAdmin(), bal = balOf(b.student_id).remaining;
+  let when;
+  if (b.scheduled_at) when = `<p class="eyebrow">${b.status === "cancelled" ? "予定していた日時" : "確定した日時"}（日本時間）</p><p class="big num">${fmtWhen(b.scheduled_at)}</p><p class="method"><b>${methodLabel(b.meeting_method)}</b>　<span class="muted">${b.duration_min}分</span></p>${b.status === "confirmed" ? `<p class="note">${methodNote(b.meeting_method)}</p>` : ""}`;
+  else when = `<p class="eyebrow">希望日時（日本時間）${b.status === "requested" ? "・確定待ち" : ""}</p><ol>${(b.preferred_slots || []).map((x, i) => `<li><span class="num">${fmtWhen(x)}</span>${i === 0 ? "　<span class=\"muted\">第1希望</span>" : ""}</li>`).join("")}</ol>${b.status === "requested" ? `<p class="note">実施方法（Larkビデオ会議またはLarkビデオ通話）は、確定のときにお知らせします。</p>` : ""}`;
+  let ticket;
+  if (b.ticket_consumed) ticket = `<div class="sh-ticket used"><b>チケットを1枚使用しました</b>（${fmtStamp(b.consumed_at)}）。この時点の残り：<b class="num">${b.remaining_after_use}</b>枚</div>`;
+  else if (b.status === "cancelled") ticket = `<div class="sh-ticket">キャンセルのため、チケットは使っていません。</div>`;
+  else ticket = `<div class="sh-ticket">チケットはまだ使っていません。コンサルが「完了」になったときに1枚使います（現在の残り：<b class="num">${bal}</b>枚）。</div>`;
+  const evs = D().events.filter((e) => e.booking_id === b.id).sort((a, c) => a.id - c.id);
+  return `<header class="sh-head"><p class="eyebrow">予約番号 #${b.booking_no}${admin ? `　${esc(b.student_name)} さん` : ""}</p><h2 id="sheet-title" tabindex="-1">${esc(b.title)}</h2><div>${pill(b.status)}</div></header>
+    <section class="sh-when">${when}</section>
+    ${ticket}
+    <div class="sh-actions">${actionsHTML(b)}</div>
+    <dl class="fields">
+      <div><dt>一緒にしてほしいこと</dt>${b.want_together ? `<dd>${esc(b.want_together)}</dd>` : `<dd class="empty-v">（未入力）</dd>`}</div>
+      <div><dt>教えてほしいこと</dt>${b.want_learn ? `<dd>${esc(b.want_learn)}</dd>` : `<dd class="empty-v">（未入力）</dd>`}</div>
+      <div><dt>管理者からの連絡事項</dt>${b.admin_message ? `<dd>${esc(b.admin_message)}</dd>` : `<dd class="empty-v">（なし）</dd>`}</div>
+    </dl>
+    <section class="sh-sec"><h3>変更履歴</h3><ol class="timeline">${evs.map((e) => `<li><time datetime="${esc(e.at)}">${fmtStamp(e.at)}</time>　<span class="muted">${actorText(e)}</span><p>${esc(evText(e))}</p>${diffHTML(e)}${e.reason ? `<p class="ev-reason">理由：${esc(e.reason)}</p>` : ""}</li>`).join("")}</ol></section>`;
+}
+function actionsHTML(b) {
+  const admin = isAdmin(), A = (panel, label, cls = "ghost") => `<button type="button" class="btn ${cls}" data-act="panel" data-panel="${panel}">${label}</button>`;
+  if (admin) {
+    if (b.status === "requested") return A("confirm", "この予約を確定する", "primary") + A("edit", "内容を編集") + A("cancel", "キャンセル", "danger");
+    if (b.status === "confirmed") return A("complete", "完了にする（1枚使う）", "leaf") + A("reschedule", "日時を変更") + A("edit", "内容を編集") + A("cancel", "キャンセル", "danger");
+    if (b.status === "completed") return A("edit", "内容を編集") + A("undo-complete", "完了を取り消す（訂正）", "danger");
+    return A("undo-cancel", "キャンセルを取り消す（訂正）");
+  }
+  if (b.status === "requested") return A("edit", "内容・希望日時を編集", "primary") + A("cancel", "キャンセル", "danger");
+  if (b.status === "confirmed") return A("change", "日時の変更を依頼", "primary") + A("edit", "内容を編集") + A("cancel", "キャンセル", "danger");
+  return `<p class="sh-note">この予約は変更できません。訂正が必要な場合は管理者にご連絡ください。</p>`;
+}
+
+/* ---------- 操作パネル ---------- */
+function timeOptions(sel) {
+  const vals = [];
+  for (let m = 7 * 60; m <= 22 * 60; m += 30) vals.push(`${pad(Math.floor(m / 60))}:${pad(m % 60)}`);
+  if (sel && !vals.includes(sel)) { vals.push(sel); vals.sort(); }
+  return vals.map((v) => `<option value="${v}"${v === sel ? " selected" : ""}>${v}</option>`).join("");
+}
+function slotRowHTML(i, iso, min) {
+  return `<div class="slot-row"><span class="slot-label">第${i + 1}希望</span>
+    <input type="date" id="slot-date-${i + 1}" name="slot_date" aria-label="第${i + 1}希望の日付" value="${iso ? isoToJstDate(iso) : ""}"${min ? ` min="${min}"` : ""}${i === 0 ? " required" : ""}>
+    <select id="slot-time-${i + 1}" name="slot_time" aria-label="第${i + 1}希望の時刻">${timeOptions(iso ? isoToJstTime(iso) : "10:00")}</select>
+    <button type="button" class="icon-btn" data-act="remove-slot" aria-label="この候補を削除">×</button></div>`;
+}
+function slotsEditorHTML(slots, min, legend = "希望日時") {
+  const list = slots && slots.length ? slots : [null];
+  return `<fieldset data-slots data-min="${min || ""}"><legend>${legend}<span class="req">必須</span></legend><p class="hint">日本時間で入力してください。候補は3つまで出せます。</p>
+    <div class="slot-list">${list.map((s, i) => slotRowHTML(i, s, min)).join("")}</div>
+    <button type="button" class="btn ghost small" data-act="add-slot"${list.length >= 3 ? " hidden" : ""}>＋ 候補を追加</button></fieldset>`;
+}
+function relabelSlots(fs) {
+  const rows = $$(".slot-row", fs);
+  rows.forEach((r, i) => {
+    $(".slot-label", r).textContent = `第${i + 1}希望`;
+    const d = $("input[type=date]", r), t = $("select", r);
+    d.id = `slot-date-${i + 1}`; d.setAttribute("aria-label", `第${i + 1}希望の日付`); d.required = i === 0;
+    t.id = `slot-time-${i + 1}`; t.setAttribute("aria-label", `第${i + 1}希望の時刻`);
+  });
+  $("[data-act=add-slot]", fs).hidden = rows.length >= 3;
+}
+function readSlots(form) {
+  const ds = $$("input[name=slot_date]", form).map((i) => i.value), ts = $$("select[name=slot_time]", form).map((s) => s.value), out = [];
+  ds.forEach((d, i) => { if (d) { const iso = jstToISO(d, ts[i]); if (!out.some((x) => Date.parse(x) === Date.parse(iso))) out.push(iso); } });
+  return out;
+}
+const backBtn = `<button type="button" class="btn link back" data-act="panel-back">← 予約の詳細に戻る</button>`;
+const errBox = `<p class="form-error" role="alert" hidden></p>`;
+const contentFields = (b) => `
+  <div class="field"><label for="f-title">相談内容（ひとことで）<span class="req">必須</span></label>
+    <input type="text" id="f-title" name="title" maxlength="40" required value="${esc(b?.title || "")}" placeholder="例：個別支援計画の文例づくり" data-count="title-count" data-autofocus>
+    <span class="count" id="title-count">${len(b?.title || "")} / 40</span></div>
+  <div class="field"><label for="f-together">一緒にしてほしいこと</label>
+    <textarea id="f-together" name="want_together" maxlength="2000" placeholder="例：来月のおたよりを、画面を見ながら一緒に作りたい">${esc(b?.want_together || "")}</textarea></div>
+  <div class="field"><label for="f-learn">教えてほしいこと</label>
+    <textarea id="f-learn" name="want_learn" maxlength="2000" placeholder="例：AIに毎回同じ形式で書いてもらうコツ">${esc(b?.want_learn || "")}</textarea></div>`;
+
+function panelHTML(b, s) {
+  const admin = isAdmin(), head = (t) => `${backBtn}<header class="sh-head"><p class="eyebrow">予約番号 #${b.booking_no}${admin ? `　${esc(b.student_name)} さん` : ""}　${esc(b.title)}</p><h2 id="sheet-title" tabindex="-1">${t}</h2></header>`;
+  const bal = balOf(b.student_id).remaining;
+  switch (s.panel) {
+    case "edit": return `${head(b.status === "requested" ? "内容・希望日時を編集" : "内容を編集")}
+      <form class="form" data-form="edit">${contentFields(b)}
+        ${b.status === "requested" ? slotsEditorHTML(b.preferred_slots, admin ? "" : todayJst()) : ""}
+        ${admin ? `<div class="field"><label for="f-dur">時間</label><select id="f-dur" name="duration">${[30, 45, 60, 90, 120].map((m) => `<option value="${m}"${b.duration_min === m ? " selected" : ""}>${m}分</option>`).join("")}</select></div>
+          <div class="field"><label for="f-method">実施方法</label><select id="f-method" name="method">${Object.entries(METHOD).map(([k, v]) => `<option value="${k}"${b.meeting_method === k ? " selected" : ""}>${v.label}</option>`).join("")}</select></div>
+          <div class="field"><label for="f-msg">受講生への連絡事項</label><textarea id="f-msg" name="admin_message" maxlength="1000" placeholder="例：使っている資料があれば、事前にLarkのチャットでお送りください。">${esc(b.admin_message)}</textarea></div>` : ""}
+        ${b.status === "completed" ? `<p class="callout">完了済みの予約です。編集しても、チケットの枚数は変わりません。変更内容は履歴に残ります。</p>` : ""}
+        ${errBox}<div class="form-actions"><button class="btn primary" type="submit">保存する</button></div></form>`;
+    case "confirm": {
+      const slots = b.preferred_slots || [];
+      return `${head("予約を確定する")}
+      <form class="form" data-form="confirm"><fieldset><legend>確定する日時（日本時間）</legend><div class="radio-list">
+        ${slots.map((x, i) => `<label class="radio"><input type="radio" name="pick" value="${i}"${i === 0 ? " checked" : ""}${i === 0 ? " data-autofocus" : ""}><span>第${i + 1}希望　<b class="num">${fmtWhen(x)}</b></span></label>`).join("")}
+        <label class="radio"><input type="radio" name="pick" value="other"><span>別の日時にする</span>
+          <span class="inline-dt"><input type="date" id="c-date" name="other_date" aria-label="別の日付" value="${slots[0] ? isoToJstDate(slots[0]) : ""}"><select id="c-time" name="other_time" aria-label="別の時刻">${timeOptions(slots[0] ? isoToJstTime(slots[0]) : "10:00")}</select></span></label>
+      </div></fieldset>
+        <div class="field"><label for="c-dur">時間</label><select id="c-dur" name="duration">${[30, 45, 60, 90, 120].map((m) => `<option value="${m}"${b.duration_min === m ? " selected" : ""}>${m}分</option>`).join("")}</select></div>
+        <fieldset><legend>実施方法</legend><div class="radio-list">
+          <label class="radio"><input type="radio" id="c-method-meeting" name="method" value="lark_meeting"${b.meeting_method !== "lark_call" ? " checked" : ""}><span><b>Larkビデオ会議</b>　<span class="muted">参加リンクをLarkのチャットで送る</span></span></label>
+          <label class="radio"><input type="radio" id="c-method-call" name="method" value="lark_call"${b.meeting_method === "lark_call" ? " checked" : ""}><span><b>Larkビデオ通話</b>　<span class="muted">予約の時間にLarkのチャットから通話をかける</span></span></label>
+        </div></fieldset>
+        <div class="field"><label for="c-msg">受講生への連絡事項</label><textarea id="c-msg" name="admin_message" maxlength="1000" placeholder="例：使っている資料があれば、事前にLarkのチャットでお送りください。">${esc(b.admin_message)}</textarea></div>
+        <p class="callout">確定してもチケットは減りません。受講生の画面に、確定日時・実施方法・連絡事項が表示されます。このアプリからLarkへの自動通知はないので、受講生にはLarkのチャットでもお知らせください。</p>
+        ${errBox}<div class="form-actions"><button class="btn primary" type="submit">この日時で確定する</button></div></form>`;
+    }
+    case "reschedule": return `${head("日時を変更する")}
+      <form class="form" data-form="reschedule"><p class="callout">いまの日時：<b class="num">${fmtWhen(b.scheduled_at)}</b></p>
+        <div class="field"><span class="lab">新しい日時（日本時間）<span class="req">必須</span></span><div class="inline-dt"><input type="date" id="r-date" name="new_date" required aria-label="新しい日付" value="${isoToJstDate(b.scheduled_at)}" data-autofocus><select id="r-time" name="new_time" aria-label="新しい時刻">${timeOptions(isoToJstTime(b.scheduled_at))}</select></div></div>
+        <div class="field"><label for="r-reason">変更の理由<span class="req">必須</span></label><textarea id="r-reason" name="reason" required placeholder="例：受講生さんからLarkのチャットで変更のご連絡があったため"></textarea><span class="hint">変更前・変更後の日時、理由、変更した人と時刻が履歴に残ります。チケットは減りません。受講生には、Larkのチャットでもお知らせください。</span></div>
+        ${errBox}<div class="form-actions"><button class="btn primary" type="submit">日時を変更する</button></div></form>`;
+    case "change": return `${head("日時の変更を依頼する")}
+      <form class="form" data-form="change"><p class="callout">いま確定している日時：<b class="num">${fmtWhen(b.scheduled_at)}</b><br>依頼すると状態が「申込中」に戻り、管理者が新しい日時で確定し直します。チケットは減りません。</p>
+        ${slotsEditorHTML([], todayJst(), "新しい希望日時")}
+        <div class="field"><label for="ch-reason">変更したい理由<span class="req">必須</span></label><textarea id="ch-reason" name="reason" required placeholder="例：仕事の予定が入ったため"></textarea></div>
+        ${errBox}<div class="form-actions"><button class="btn primary" type="submit">変更を依頼する</button></div></form>`;
+    case "complete": {
+      const early = Date.parse(b.scheduled_at) > Date.now();
+      return `${head("完了にする")}
+      <form class="form" data-form="complete">
+        <p class="callout ok">${esc(b.student_name)} さんのチケットを <b>1枚</b> 使います。<br>残り <b class="num">${bal}</b>枚 → <b class="num">${bal - 1}</b>枚</p>
+        ${early ? `<p class="callout warn">予定日時（${fmtWhen(b.scheduled_at)}）より前です。コンサルが終わってから完了にしてください。</p>` : ""}
+        <p class="hint">ボタンを何度押しても、使うのは1枚だけです。間違えたときは、詳細画面の「完了を取り消す（訂正）」で戻せます（記録は残ります）。</p>
+        ${errBox}<div class="form-actions"><button class="btn leaf" type="submit" data-autofocus>完了にする（1枚使う）</button></div></form>`;
+    }
+    case "cancel": return `${head("キャンセルする")}
+      <form class="form" data-form="cancel"><p class="callout">キャンセルしても、チケットは使いません。</p>
+        <div class="field"><label for="x-reason">理由（任意）</label><textarea id="x-reason" name="reason" placeholder="例：体調不良のため" data-autofocus></textarea></div>
+        ${errBox}<div class="form-actions"><button class="btn danger" type="submit">キャンセルする</button><button type="button" class="btn ghost" data-act="panel-back">やめる</button></div></form>`;
+    case "undo-complete": return `${head("完了を取り消す（訂正）")}
+      <form class="form" data-form="undo-complete"><p class="callout warn">チケットを1枚戻し、状態を「確定」に戻します。<br>残り <b class="num">${bal}</b>枚 → <b class="num">${bal + 1}</b>枚</p>
+        <p class="hint">元の「完了」の記録は消えません。「取り消し」の記録が理由とともに追加されます。受講生の利用履歴にも表示されます。</p>
+        <div class="field"><label for="u-reason">取り消す理由<span class="req">必須</span></label><textarea id="u-reason" name="reason" required placeholder="例：別の予約と取り違えて完了にしたため" data-autofocus></textarea></div>
+        ${errBox}<div class="form-actions"><button class="btn danger" type="submit">完了を取り消す</button></div></form>`;
+    case "undo-cancel": return `${head("キャンセルを取り消す（訂正）")}
+      <form class="form" data-form="undo-cancel"><p class="callout">キャンセル前の状態（${b.status_before_cancel === "confirmed" && b.scheduled_at ? "確定" : "申込中"}）に戻します。記録は残ります。</p>
+        <div class="field"><label for="uc-reason">取り消す理由<span class="req">必須</span></label><textarea id="uc-reason" name="reason" required placeholder="例：誤ってキャンセルしたため" data-autofocus></textarea></div>
+        ${errBox}<div class="form-actions"><button class="btn primary" type="submit">キャンセルを取り消す</button></div></form>`;
+  }
+  return "";
+}
+
+function newBookingHTML(s) {
+  const admin = isAdmin();
+  let note = "";
+  if (!admin) {
+    const bal = balOf(D().me.id).remaining, open = openCount(D().me.id);
+    if (bal <= 0) note = `<p class="callout warn">チケットの残りがありません。管理者にお問い合わせください。</p>`;
+    else if (open >= bal) note = `<p class="callout warn">申込中・確定のご予約が${open}件あり、残りのチケット（${bal}枚）分に達しています。いまのご予約が完了してからお申し込みください。</p>`;
+    else note = `<p class="callout">申込みではチケットは減りません。コンサルが完了したときに1枚使います。（残り <b class="num">${bal}</b>枚・予約中 ${open}件）</p>`;
+  }
+  return `<header class="sh-head"><p class="eyebrow">${admin ? "代理で申込みを入力" : "ほほえみプレミアム"}</p><h2 id="sheet-title" tabindex="-1">個別コンサルを申し込む</h2></header>
+    ${note}
+    <form class="form" data-form="new-booking">
+      ${admin ? `<div class="field"><label for="n-student">受講生<span class="req">必須</span></label><select id="n-student" name="student" required><option value="">選んでください</option>${students().filter((x) => x.active).map((x) => `<option value="${esc(x.student_id)}"${s.student === x.student_id ? " selected" : ""}>${esc(x.display_name)}（残り${x.remaining}枚）</option>`).join("")}</select></div>` : ""}
+      ${contentFields(null)}
+      ${slotsEditorHTML([], admin ? "" : todayJst())}
+      ${admin ? "" : `<p class="hint">コンサルは、Larkのビデオ会議またはビデオ通話で行います。日時の調整などのご連絡は、Larkのチャットでいたします。</p>`}
+      ${errBox}<div class="form-actions"><button class="btn primary" type="submit">申し込む</button></div>
+    </form>`;
+}
+
+function studentSheetHTML(s) {
+  const st = balOf(s.id);
+  const head = `<header class="sh-head"><p class="eyebrow">受講生</p><h2 id="sheet-title" tabindex="-1">${esc(st.display_name)} さん</h2>${st.active ? "" : `<div><span class="pill st-cancelled">利用停止中</span></div>`}${st.email ? `<p class="muted">${esc(st.email)}</p>` : ""}</header>`;
+  const back = `<button type="button" class="btn link back" data-act="panel-back">← ${esc(st.display_name)} さんの情報に戻る</button>`;
+  if (s.panel === "issue") return `${back}<header class="sh-head"><h2 id="sheet-title" tabindex="-1">チケットを発行する</h2></header>
+    <form class="form" data-form="issue"><p class="callout">いまの残り：<b class="num">${st.remaining}</b>枚</p>
+      <div class="field"><label for="i-count">発行枚数</label><input type="number" id="i-count" name="count" min="1" max="100" value="30" required data-autofocus></div>
+      <div class="field"><label for="i-note">メモ</label><input type="text" id="i-note" name="note" maxlength="60" value="ほほえみプレミアム30枚チケット"></div>
+      ${errBox}<div class="form-actions"><button class="btn primary" type="submit">発行する</button></div></form>`;
+  if (s.panel === "adjust") return `${back}<header class="sh-head"><h2 id="sheet-title" tabindex="-1">枚数を調整する（訂正）</h2></header>
+    <form class="form" data-form="adjust"><p class="callout">いまの残り：<b class="num">${st.remaining}</b>枚。発行の数え間違いなどを訂正するときに使います。予約の「完了」を間違えた場合は、その予約の「完了を取り消す」を使ってください。</p>
+      <div class="field"><label for="j-delta">増やす／減らす枚数（例：1、-1）<span class="req">必須</span></label><input type="number" id="j-delta" name="delta" min="-100" max="100" step="1" required data-autofocus></div>
+      <div class="field"><label for="j-reason">理由<span class="req">必須</span></label><textarea id="j-reason" name="reason" required placeholder="例：発行枚数を29枚と入力していたため1枚追加"></textarea></div>
+      ${errBox}<div class="form-actions"><button class="btn primary" type="submit">調整する</button></div></form>`;
+  if (s.panel === "profile") return `${back}<header class="sh-head"><h2 id="sheet-title" tabindex="-1">お名前・メール・利用状態</h2></header>
+    <form class="form" data-form="profile"><div class="field"><label for="p-name">お名前</label><input type="text" id="p-name" name="name" maxlength="40" required value="${esc(st.display_name)}" data-autofocus></div>
+      <div class="field"><label for="p-email">メールアドレス（任意・管理者だけが見られます）</label><input type="email" id="p-email" name="email" value="${esc(st.email || "")}"></div>
+      <label class="check"><input type="checkbox" id="p-active" name="active"${st.active ? " checked" : ""}> 利用中（外すと、この方の専用リンクは使えなくなります。戻すと同じリンクで使えます）</label>
+      ${errBox}<div class="form-actions"><button class="btn primary" type="submit">保存する</button></div></form>`;
+  if (s.panel === "reissue") return `${back}<header class="sh-head"><h2 id="sheet-title" tabindex="-1">専用リンクを再発行する</h2></header>
+    <form class="form" data-form="reissue"><p class="callout warn">再発行すると、今のリンクは使えなくなります。新しいリンクを、Larkのチャットで ${esc(st.display_name)} さんに送り直してください。予約やチケットの記録は、そのまま引き継がれます。</p>
+      <div class="field"><label for="k-reason">理由（任意）</label><textarea id="k-reason" name="reason" placeholder="例：リンクをほかの方に転送してしまったため" data-autofocus></textarea></div>
+      ${errBox}<div class="form-actions"><button class="btn primary" type="submit">再発行する</button><button type="button" class="btn ghost" data-act="panel-back">やめる</button></div></form>`;
+  return `${head}
+    <div class="bal-grid"><div><span>残り</span><b>${st.remaining}</b></div><div><span>発行</span><b>${st.issued}</b></div><div><span>使用</span><b>${st.used}</b></div><div><span>調整</span><b>${signed(st.adjusted)}</b></div></div>
+    ${linkBoxHTML(st, s)}
+    <div class="sh-actions">
+      <button type="button" class="btn primary" data-act="panel" data-panel="issue">チケットを発行</button>
+      <button type="button" class="btn ghost" data-act="student-bookings" data-id="${esc(s.id)}">この方の予約を見る</button>
+      <button type="button" class="btn ghost" data-act="new-booking" data-student="${esc(s.id)}">代理で申込み</button>
+      <button type="button" class="btn ghost" data-act="panel" data-panel="adjust">枚数を調整（訂正）</button>
+      <button type="button" class="btn ghost" data-act="panel" data-panel="profile">お名前・メール・利用状態</button>
+    </div>
+    <section class="sh-sec"><h3>チケット利用履歴</h3><p class="hint">受講生ご本人の画面にも、同じ記録が表示されます。</p>${ledgerHTML(s.id)}</section>`;
+}
+
+/* ---------- 専用リンク（管理者の受講生画面）---------- */
+function inviteText(name, url) {
+  return `${name}さん
+
+ほほえみプレミアム（個別コンサル）の予約ページです。
+こちらの専用リンクから、個別コンサルの申込み・ご予約の確認・チケットの残り枚数の確認ができます。
+
+${url}
+
+※このリンクは${name}さん専用です。ほかの方には転送しないでください。
+※コンサルは、Larkのビデオ会議またはビデオ通話で行います。
+※このページをブックマークしておくと、すぐに開けます。`;
+}
+function linkBoxHTML(st, s) {
+  const url = s.key ? linkFor(s.key) : "";
+  return `<section class="link-box" id="link-box" aria-labelledby="lk-h">
+    <h3 id="lk-h">専用リンク</h3>
+    <p class="hint">${esc(st.display_name)} さんだけが使うリンクです。Larkのチャットで送ってください。${st.key_issued_at ? `（発行：<span class="num">${fmtStamp(st.key_issued_at)}</span>）` : ""}</p>
+    ${s.keyError ? `<p class="form-error" role="alert">${esc(s.keyError)}</p>` : `
+    <label class="sr" for="link-url">専用リンク</label>
+    <input type="text" id="link-url" class="link-url" readonly value="${esc(url || "読み込み中…")}">
+    <div class="sh-actions">
+      <button type="button" class="btn primary" data-act="copy" data-target="link-url"${url ? "" : " disabled"}>リンクをコピー</button>
+      <button type="button" class="btn soft" data-act="copy" data-target="invite-text"${url ? "" : " disabled"}>案内文ごとコピー</button>
+      <button type="button" class="btn ghost" data-act="panel" data-panel="reissue">リンクを再発行</button>
+    </div>
+    <details><summary>Larkに送る案内文を見る</summary><label class="sr" for="invite-text">案内文</label><textarea id="invite-text" readonly rows="10">${esc(url ? inviteText(st.display_name, url) : "")}</textarea></details>`}
+    ${st.active ? "" : `<p class="callout warn">利用停止中のため、このリンクは今は使えません。</p>`}
+    ${api.mode === "demo" ? `<p class="hint">デモのため、このリンクは実際には使えません。</p>` : ""}
+  </section>`;
+}
+async function loadStudentKey(id) {
+  try {
+    const k = await api.call("admin_get_key", { p_student_id: id });
+    if (state.sheet?.type !== "student" || state.sheet.id !== id) return;
+    state.sheet.key = k; state.sheet.keyError = null;
+  } catch (e) {
+    if (state.sheet?.type !== "student" || state.sheet.id !== id) return;
+    state.sheet.keyError = "リンクを読み込めませんでした：" + friendly(e);
+  }
+  const box = $("#link-box");
+  if (box && D()) box.outerHTML = linkBoxHTML(balOf(id), state.sheet);
+}
+
+function addStudentHTML() {
+  return `<header class="sh-head"><h2 id="sheet-title" tabindex="-1">受講生を追加する</h2></header>
+    <form class="form" data-form="add-student"><p class="callout">登録すると、この方専用のリンクができます。続けてチケットを発行し、リンクをLarkのチャットで送ってください。</p>
+      <div class="field"><label for="s-name">お名前<span class="req">必須</span></label><input type="text" id="s-name" name="name" maxlength="40" required data-autofocus></div>
+      <div class="field"><label for="s-email">メールアドレス（任意・管理者だけが見られます）</label><input type="email" id="s-email" name="email"></div>
+      ${errBox}<div class="form-actions"><button class="btn primary" type="submit">登録する</button></div></form>`;
+}
+
+const brandHTML = `<div class="brand"><span class="logo">${SMILE}</span><div><div class="brand-name">ほほえみプレミアム</div><div class="brand-sub">30枚チケット／個別コンサル予約管理</div></div></div>`;
+function loginHTML() {
+  const L = state.login;
+  return `<div class="wrap"><div class="center-card">${brandHTML}
+    <h1>管理者ログイン</h1>
+    ${!L.sent ? `<form class="form" data-form="login-email"><p>管理者として登録されたメールアドレスに、ログイン用のメールをお送りします。</p>
+      <div class="field"><label for="l-email">メールアドレス</label><input type="email" id="l-email" name="email" required autocomplete="email" value="${esc(L.email)}"></div>
+      ${errBox}<button class="btn primary" type="submit">ログイン用メールを送る</button></form>`
+    : `<form class="form" data-form="login-code"><p>${esc(L.email)} にメールを送りました。メールのリンクを開くか、メールに書かれた数字のコードを入力してください。</p>
+      <div class="field"><label for="l-code">コード（数字）</label><input type="text" id="l-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]{6,10}" required></div>
+      ${errBox}<button class="btn primary" type="submit">ログインする</button><button type="button" class="btn link" data-act="login-again">メールアドレスを入力し直す</button></form>`}
+    <p class="callout">受講生の方へ：このページは管理者用です。Larkのチャットでお送りした「専用リンク」から開いてください。</p>
+  </div></div>`;
+}
+function notReadyHTML() {
+  return `<div class="wrap"><div class="center-card">${brandHTML}<h1>ただいま準備中です</h1><p>ご利用いただけるようになりましたら、Larkのチャットでお知らせします。</p></div></div>`;
+}
+function fatalHTML() {
+  const badLink = api.mode === "student" && /このリンクは使えません/.test(state.fatal);
+  if (badLink) return `<div class="wrap"><div class="center-card">${brandHTML}<h1>このリンクは使えません</h1>
+    <p>リンクが新しく発行し直されたか、ご利用が停止されている可能性があります。</p>
+    <p>お手数ですが、Larkのチャットで管理者にお問い合わせください。最新のリンクをお送りします。</p></div></div>`;
+  return `<div class="wrap"><div class="center-card">${brandHTML}<h1>表示できませんでした</h1><p>${esc(state.fatal)}</p>
+    <div class="form-actions"><button class="btn primary" data-act="reload">もう一度読み込む</button>${api.mode === "admin" ? `<button class="btn ghost" data-act="logout">ログアウト</button>` : ""}</div></div></div>`;
+}
+
+/* =====================================================================
+   操作の処理（ボタン・フォーム）
+   ===================================================================== */
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 5000);
+}
+async function reload() {
+  try { state.data = await api.load(); state.fatal = null; }
+  catch (e) { state.data = null; state.fatal = friendly(e); }
+  if (state.data && state.sheet?.type === "booking" && !bookingById(state.sheet.id)) state.sheet = null;
+}
+async function after(msg, sheet) {
+  if (sheet !== undefined) state.sheet = sheet;
+  else if (state.sheet) state.sheet = { ...state.sheet, panel: null, reqId: null };
+  await reload(); render(); toast(msg);
+}
+function setBusy(form, v) {
+  state.busy = v;
+  form.setAttribute("aria-busy", String(v));
+  $$("button", form).forEach((b) => {
+    b.disabled = v;
+    if (b.type === "submit") { if (v) { b.dataset.label = b.textContent; b.textContent = "処理中…"; } else if (b.dataset.label) b.textContent = b.dataset.label; }
+  });
+}
+function showErr(form, msg) { const e = $(".form-error", form); if (e) { e.textContent = msg; e.hidden = false; e.scrollIntoView({ block: "nearest" }); } }
+
+const FORMS = {
+  async "new-booking"(form, fd, s) {
+    const slots = readSlots(form);
+    if (!slots.length) throw new Error("希望日時を1つ以上入力してください");
+    const p = { p_title: fd.get("title"), p_want_together: fd.get("want_together"), p_want_learn: fd.get("want_learn"), p_slots: slots, p_request_id: s.reqId, p_student_id: isAdmin() ? fd.get("student") || null : null };
+    if (isAdmin() && !p.p_student_id) throw new Error("受講生を選んでください");
+    const b = await api.call("request_booking", p);
+    await after("お申込みを受け付けました。管理者の確定をお待ちください（チケットはまだ使っていません）", { type: "booking", id: b.id });
+  },
+  async edit(form, fd, s) {
+    const b = bookingById(s.id), admin = isAdmin();
+    const p = { p_booking_id: b.id, p_expected_version: b.version, p_title: fd.get("title"), p_want_together: fd.get("want_together"), p_want_learn: fd.get("want_learn"), p_slots: null, p_duration_min: null, p_admin_message: null };
+    if (b.status === "requested") { p.p_slots = readSlots(form); if (!p.p_slots.length) throw new Error("希望日時を1つ以上入力してください"); }
+    if (admin) { p.p_duration_min = Number(fd.get("duration")); p.p_admin_message = fd.get("admin_message"); p.p_meeting_method = fd.get("method"); }
+    await api.call("edit_booking", p);
+    await after("保存しました。変更内容は履歴に残ります");
+  },
+  async confirm(form, fd, s) {
+    const b = bookingById(s.id), pick = fd.get("pick");
+    let at;
+    if (pick === "other") { if (!fd.get("other_date")) throw new Error("別の日時の日付を入力してください"); at = jstToISO(fd.get("other_date"), fd.get("other_time")); }
+    else at = b.preferred_slots[Number(pick)];
+    const method = fd.get("method") || "lark_meeting";
+    await api.call("confirm_booking", { p_booking_id: b.id, p_expected_version: b.version, p_scheduled_at: at, p_duration_min: Number(fd.get("duration")), p_admin_message: fd.get("admin_message"), p_meeting_method: method });
+    await after(`予約を確定しました（${fmtWhen(at)}・${methodLabel(method)}）`);
+  },
+  async reschedule(form, fd, s) {
+    const b = bookingById(s.id), at = jstToISO(fd.get("new_date"), fd.get("new_time"));
+    if (Date.parse(at) === Date.parse(b.scheduled_at)) throw new Error("いまと同じ日時です。新しい日時を選んでください");
+    await api.call("reschedule_booking", { p_booking_id: b.id, p_expected_version: b.version, p_new_at: at, p_reason: fd.get("reason") });
+    await after(`日時を変更しました（${fmtWhen(at)}）。変更の記録を残しました`);
+  },
+  async change(form, fd, s) {
+    const b = bookingById(s.id), slots = readSlots(form);
+    if (!slots.length) throw new Error("新しい希望日時を1つ以上入力してください");
+    await api.call("request_change", { p_booking_id: b.id, p_expected_version: b.version, p_slots: slots, p_reason: fd.get("reason") });
+    await after("日時の変更を依頼しました。管理者の確定をお待ちください");
+  },
+  async complete(form, fd, s) {
+    const r = await api.call("complete_booking", { p_booking_id: s.id, p_request_id: s.reqId });
+    await after(r?.result === "already_done" ? `すでに完了済みです（追加でチケットは使っていません。残り${r.remaining}枚）` : `完了にしました。チケットを1枚使いました（残り${r.remaining}枚）`);
+  },
+  async cancel(form, fd, s) {
+    await api.call("cancel_booking", { p_booking_id: s.id, p_reason: fd.get("reason") || "" });
+    await after("キャンセルしました（チケットは使っていません）");
+  },
+  async "undo-complete"(form, fd, s) {
+    const r = await api.call("undo_completion", { p_booking_id: s.id, p_reason: fd.get("reason"), p_request_id: s.reqId });
+    await after(`完了を取り消し、チケットを1枚戻しました（残り${r.remaining}枚）。訂正の記録を残しました`);
+  },
+  async "undo-cancel"(form, fd, s) {
+    await api.call("undo_cancellation", { p_booking_id: s.id, p_reason: fd.get("reason") });
+    await after("キャンセルを取り消しました。訂正の記録を残しました");
+  },
+  async issue(form, fd, s) {
+    const r = await api.call("issue_tickets", { p_student_id: s.id, p_count: Number(fd.get("count")), p_reason: fd.get("note") || "", p_request_id: s.reqId });
+    await after(r?.result === "already_done" ? "この発行はすでに記録されています" : `${fd.get("count")}枚発行しました（残り${r.remaining}枚）`);
+  },
+  async adjust(form, fd, s) {
+    const d = Number(fd.get("delta"));
+    if (!Number.isInteger(d) || d === 0) throw new Error("0以外の整数で入力してください（例：1、-1）");
+    const r = await api.call("adjust_tickets", { p_student_id: s.id, p_delta: d, p_reason: fd.get("reason"), p_request_id: s.reqId });
+    await after(`枚数を調整しました（残り${r.remaining}枚）。訂正の記録を残しました`);
+  },
+  async profile(form, fd, s) {
+    await api.call("update_profile", { p_user_id: s.id, p_display_name: fd.get("name"), p_active: fd.get("active") === "on", p_email: String(fd.get("email") || "") });
+    await after("保存しました");
+  },
+  async reissue(form, fd, s) {
+    const k = await api.call("admin_reissue_key", { p_student_id: s.id, p_reason: fd.get("reason") || "" });
+    await after("新しいリンクを発行しました。古いリンクは使えません。Larkのチャットで送り直してください", { ...s, panel: null, reqId: null, key: k, keyError: null });
+  },
+  async "add-student"(form, fd, s) {
+    const p = await api.call("admin_create_student", { p_display_name: fd.get("name"), p_email: String(fd.get("email") || ""), p_request_id: s.reqId });
+    await after(`${p.display_name} さんを登録しました。続けてチケットを発行してください`, { type: "student", id: p.id, panel: "issue", reqId: uuid(), key: p.access_key });
+  },
+  async "login-email"(form, fd) {
+    const email = String(fd.get("email") || "").trim();
+    const { error } = await api.sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
+    if (error) throw new Error(/not allowed|not found|Signups/i.test(error.message) ? "このメールアドレスは登録されていません。管理者にお問い合わせください" : /rate|limit/i.test(error.message) ? "送信の回数が多すぎます。しばらく時間をおいてお試しください" : friendly(error));
+    state.login = { sent: true, email }; render();
+  },
+  async "login-code"(form, fd) {
+    const { error } = await api.sb.auth.verifyOtp({ email: state.login.email, token: String(fd.get("code") || "").trim(), type: "email" });
+    if (error) throw new Error("コードが正しくないか、有効期限が切れています。もう一度お試しください");
+    state.mode = "app"; await reload(); render();
+  },
+};
+
+document.addEventListener("submit", async (e) => {
+  const form = e.target.closest("form[data-form]");
+  if (!form) return;
+  e.preventDefault();
+  if (state.busy) return;                       // 二重送信を防ぐ（さらにサーバー側でも防止）
+  const kind = form.dataset.form, fd = new FormData(form);
+  const err = $(".form-error", form); if (err) err.hidden = true;
+  setBusy(form, true);
+  try { await FORMS[kind](form, fd, state.sheet || {}); }
+  catch (ex) { showErr(form, friendly(ex)); }
+  finally { setBusy(form, false); }
+});
+
+document.addEventListener("click", async (e) => {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act, id = el.dataset.id;
+  if (state.busy && act !== "close-sheet") return;
+  switch (act) {
+    case "tab": state.tab = el.dataset.tab; render(); break;
+    case "open-booking": openSheet({ type: "booking", id, panel: null }); break;
+    case "open-student": openSheet({ type: "student", id, panel: null, key: null }); loadStudentKey(id); break;
+    case "new-booking": openSheet({ type: "new", student: el.dataset.student || null, reqId: uuid() }); break;
+    case "add-student": openSheet({ type: "add-student", reqId: uuid() }); break;
+    case "copy": {
+      const t = document.getElementById(el.dataset.target);
+      if (!t || !t.value) break;
+      const what = el.dataset.target === "link-url" ? "リンク" : "案内文";
+      const done = () => toast(`${what}をコピーしました。Larkのチャットに貼り付けてください`);
+      const fallback = () => {
+        const d = t.closest("details"); if (d) d.open = true;
+        t.focus(); t.select();
+        try { if (document.execCommand("copy")) { done(); return; } } catch (err) { /* 次の案内へ */ }
+        toast(`${what}を選択しました。長押し（パソコンは右クリック）でコピーしてください`);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t.value).then(done, fallback);
+      else fallback();
+      break;
+    }
+    case "close-sheet": if (!state.busy) { state.sheet = null; renderSheet(); } break;
+    case "panel": state.sheet = { ...state.sheet, panel: el.dataset.panel, reqId: uuid() }; renderSheet(); $(".sheet").scrollTop = 0; break;
+    case "panel-back": state.sheet = { ...state.sheet, panel: null, reqId: null }; renderSheet(); break;
+    case "student-bookings": state.f = { q: "", status: "all", student: id, period: "all", sort: "attention" }; state.tab = "bookings"; state.sheet = null; render(); break;
+    case "fstatus": state.f.status = el.dataset.v; render(); break;
+    case "clear-filters": state.f = { q: "", status: "all", student: "all", period: "all", sort: "attention" }; render(); break;
+    case "quick": {
+      const q = el.dataset.q; state.tab = "bookings";
+      state.f = { q: "", student: "all", sort: "attention", status: q === "pending" ? "requested" : q === "upcoming" ? "confirmed" : "completed", period: q === "upcoming" ? "upcoming" : "all" };
+      render(); break;
+    }
+    case "add-slot": { const fs = el.closest("[data-slots]"), list = $(".slot-list", fs), n = $$(".slot-row", list).length; if (n < 3) { list.insertAdjacentHTML("beforeend", slotRowHTML(n, null, fs.dataset.min)); relabelSlots(fs); $$(".slot-row input[type=date]", list)[n].focus(); } break; }
+    case "remove-slot": { const fs = el.closest("[data-slots]"), rows = $$(".slot-row", fs); if (rows.length > 1) { el.closest(".slot-row").remove(); relabelSlots(fs); } else { $("input[type=date]", rows[0]).value = ""; } break; }
+    case "demo-reset":
+      if (!state.resetArmed) { state.resetArmed = true; render(); setTimeout(() => { if (state.resetArmed) { state.resetArmed = false; render(); } }, 5000); }
+      else { state.resetArmed = false; api.server.reset(); state.sheet = null; state.tab = "bookings"; await reload(); render(); toast("見本データに戻しました"); }
+      break;
+    case "reload": state.fatal = null; await reload(); render(); toast("最新の情報にしました"); break;
+    case "logout": await api.sb.auth.signOut(); state.data = null; state.fatal = null; state.mode = "login"; state.login = { sent: false, email: "" }; render(); break;
+    case "login-again": state.login = { sent: false, email: state.login.email }; render(); break;
+  }
+});
+
+document.addEventListener("input", (e) => {
+  const el = e.target;
+  if (el.dataset.input === "fq") { state.f.q = el.value; const l = $("#list"); if (l) l.innerHTML = listHTML(); updateChipCounts(); }
+  if (el.dataset.input === "aq") { state.af.q = el.value; const l = $("#audit-list"); if (l) l.innerHTML = auditListHTML(); }
+  if (el.dataset.count) { const c = document.getElementById(el.dataset.count); if (c) c.textContent = `${len(el.value)} / ${el.maxLength}`; }
+});
+function updateChipCounts() {
+  const base = baseFiltered();
+  $$("[data-act=fstatus]").forEach((b) => { const s = b.dataset.v; const c = $(".c", b); if (c) c.textContent = base.filter((x) => s === "all" || x.status === s).length; });
+}
+document.addEventListener("change", async (e) => {
+  const el = e.target, k = el.dataset.change;
+  if (!k) return;
+  if (k === "demo-user") { api.server.setMe(el.value); state.sheet = null; state.tab = "bookings"; state.f = { q: "", status: "all", student: "all", period: "all", sort: "attention" }; await reload(); render(); toast(`${nameOf(el.value)} さんの画面に切り替えました`); return; }
+  if (k === "fstudent") state.f.student = el.value;
+  if (k === "fperiod") state.f.period = el.value;
+  if (k === "fsort") state.f.sort = el.value;
+  if (k === "astudent") state.af.student = el.value;
+  if (k === "aaction") state.af.action = el.value;
+  render();
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.sheet && !state.busy) { state.sheet = null; renderSheet(); } });
+
+/* ---------- 起動 ---------- */
+(async function boot() {
+  try { await api.init(); }
+  catch (e) { state.fatal = friendly(e); render(); return; }
+  if (api.mode === "unconfigured") { render(); return; }
+  if (api.mode === "student" || api.mode === "admin") {
+    // 別の専用リンクを貼り付けて開き直したときなど、URLの#以降が変わったら読み込み直す
+    window.addEventListener("hashchange", () => { if (!/access_token|error/.test(location.hash)) location.reload(); });
+  }
+  if (api.mode === "admin") {
+    const { data: { session } } = await api.sb.auth.getSession();
+    api.sb.auth.onAuthStateChange((ev) => {
+      if (ev === "SIGNED_OUT") { state.data = null; state.fatal = null; state.mode = "login"; render(); }
+      if (ev === "SIGNED_IN" && state.mode === "login") { state.mode = "app"; reload().then(render); }
+    });
+    if (!session) { state.mode = "login"; render(); return; }
+  }
+  state.mode = "app";
+  await reload(); render();
+})();
+</script>
+</body>
+</html>
