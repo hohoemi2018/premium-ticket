@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>ほほえみプレミアム 予約ページの使い方</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
+<style>
+/* Layout: 1ステップ＝スマホ画面の写真＋番号つきの短い説明。PCは左右、スマホは縦に並ぶ */
+:root{
+  --bg:#FDF5F4; --surface:#FFFFFF; --surface-2:#FAEDEE; --line:#EBD7DA;
+  --ink:#3B3140; --ink-2:#6C6070; --accent:#C24A69; --accent-ink:#FFFFFF; --accent-soft:#FBE1E8; --accent-deep:#9C3350;
+  --leaf:#2F7D5C; --leaf-soft:#DFF1E8; --sky:#2C67A6; --sky-soft:#E2EDF9; --honey:#8A5600; --honey-soft:#FFF0CF; --stone:#6A6370; --stone-soft:#EEEAF0;
+  --font:"Zen Maru Gothic","Hiragino Maru Gothic ProN","BIZ UDPGothic","Yu Gothic",sans-serif;
+  --num:"Fredoka","Zen Maru Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root{
+  --bg:#1E191F; --surface:#2A232B; --surface-2:#342A35; --line:#4A3D4C;
+  --ink:#F4EBF1; --ink-2:#C2B4C4; --accent:#F18BA5; --accent-ink:#2A111B; --accent-soft:#4B2534; --accent-deep:#FFB3C6;
+  --leaf:#7FD3AC; --leaf-soft:#1D3A2E; --sky:#93C3F5; --sky-soft:#1C3049; --honey:#F3C66E; --honey-soft:#3B2E16; --stone:#CAC1CD; --stone-soft:#393239;
+  color-scheme:dark;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-right,0px)) 64px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:28px}
+h1{font-size:1.7rem;line-height:1.4;margin:0;text-wrap:balance}
+h2{font-size:1.3rem;line-height:1.4;margin:0;text-wrap:balance}
+p{margin:0}
+.hero{display:flex;flex-direction:column;gap:10px}
+.eyebrow{font-size:.85rem;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.lead{color:var(--ink-2);max-width:36em}
+.toc{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.toc a{display:inline-flex;align-items:center;gap:.5em;min-height:44px;padding:.3em 1em;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
+.toc a:hover{border-color:var(--accent)}
+.toc b{font-family:var(--num);color:var(--accent)}
+.step{background:var(--surface);border-radius:26px;padding:24px;display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;align-items:start;box-shadow:0 8px 24px rgba(140,60,85,.08)}
+.step.flip{grid-template-columns:minmax(0,1fr) minmax(0,300px)}
+.step.flip .shot{order:2}
+.shot{margin:0;border-radius:30px;border:8px solid var(--ink);background:var(--bg);overflow:hidden;max-height:560px;position:relative}
+.shot img{display:block;width:100%;height:auto}
+.shot.fade::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(transparent,var(--bg))}
+.body{display:flex;flex-direction:column;gap:14px;min-width:0}
+.no{display:inline-flex;align-items:center;gap:.6em;font-weight:700;color:var(--accent);font-size:.9rem;letter-spacing:.06em}
+.no b{font-family:var(--num);font-size:2rem;line-height:1}
+ol.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:p}
+ol.pts li{counter-increment:p;display:grid;grid-template-columns:2.1em minmax(0,1fr);gap:.2em;align-items:start}
+ol.pts li::before{content:counter(p);font-family:var(--num);font-weight:600;width:1.7em;height:1.7em;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:.95rem;margin-top:.15em}
+.note{border-radius:16px;padding:12px 16px;font-size:.95rem;background:var(--surface-2)}
+.note.warn{background:var(--honey-soft)}
+.note.ok{background:var(--leaf-soft)}
+.pill{display:inline-flex;align-items:center;padding:.05em .8em;border-radius:999px;font-size:.9rem;font-weight:700;white-space:nowrap}
+.p-req{background:var(--honey-soft);color:var(--honey)} .p-con{background:var(--sky-soft);color:var(--sky)} .p-done{background:var(--leaf-soft);color:var(--leaf)} .p-can{background:var(--stone-soft);color:var(--stone)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-weight:500}
+.flow .arr{color:var(--ink-2)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.card h3{margin:0;font-size:1.05rem}
+.tix{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.tix div{border-radius:16px;padding:14px 10px;text-align:center;background:var(--surface-2);display:flex;flex-direction:column;gap:2px}
+.tix div b{font-size:1.05rem}
+.tix div span{font-size:.9rem;color:var(--ink-2)}
+.tix .use{background:var(--accent-soft)} .tix .use span{color:var(--accent-deep);font-weight:700}
+.section{display:flex;flex-direction:column;gap:14px}
+dl.faq{margin:0;display:flex;flex-direction:column;gap:10px}
+dl.faq div{background:var(--surface);border-radius:18px;padding:14px 18px;border:1.5px solid var(--line)}
+dl.faq dt{font-weight:700}
+dl.faq dd{margin:4px 0 0;color:var(--ink-2)}
+footer{color:var(--ink-2);font-size:.9rem}
+@media (max-width:720px){
+  .step,.step.flip{grid-template-columns:1fr;padding:18px;gap:18px}
+  .step.flip .shot{order:0}
+  .shot{max-width:300px;margin:0 auto;max-height:480px}
+  h1{font-size:1.45rem}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <p class="eyebrow">ほほえみプレミアム 30枚チケット</p>
+    <h1>個別コンサル予約ページの使い方</h1>
+    <p class="lead">個別コンサルの申込み、ご予約の確認、チケットの残り枚数の確認ができるページです。画面の写真は見本です（お名前や内容は例です）。</p>
+    <ul class="toc">
+      <li><a href="#s1"><b>1</b>ページを開く</a></li>
+      <li><a href="#s2"><b>2</b>残り枚数を見る</a></li>
+      <li><a href="#s3"><b>3</b>申し込む</a></li>
+      <li><a href="#s4"><b>4</b>確定を確認する</a></li>
+      <li><a href="#s5"><b>5</b>変更・キャンセル</a></li>
+      <li><a href="#s6"><b>6</b>利用履歴を見る</a></li>
+      <li><a href="#faq">困ったとき</a></li>
+    </ul>
+  </header>
+
+  <section class="section" aria-label="ご利用の流れ">
+    <div class="flow">
+      <span class="pill p-req">申込中</span><span class="arr">→ 日時が決まると →</span>
+      <span class="pill p-con">確定</span><span class="arr">→ コンサルが終わると →</span>
+      <span class="pill p-done">完了（1枚使用）</span>
+    </div>
+    <p class="lead">取りやめたときは <span class="pill p-can">キャンセル</span> になります。チケットは使いません。</p>
+  </section>
+
+  <section class="step" id="s1">
+    <figure class="shot fade"><img src="img/01-top.png" alt="予約ページを開いたところ。上にお名前、その下にチケットの残り枚数が表示されている" width="800" height="1720"></figure>
+    <div class="body">
+      <p class="no"><b>1</b>ページを開く</p>
+      <h2>Larkで届いた「専用リンク」を押すだけです</h2>
+      <ol class="pts">
+        <li>Larkのチャットでお送りした専用リンクを押します。</li>
+        <li>上にご自身のお名前が出ていれば、あなたのページです。</li>
+        <li>ブックマーク（お気に入り）に入れておくと、次からすぐに開けます。</li>
+      </ol>
+      <p class="note warn"><b>このリンクはあなた専用です。</b>ほかの方には転送しないでください。リンクを知っている人は、あなたとして申込みやキャンセルができてしまいます。</p>
+      <p class="note">ログインやパスワードは要りません。スマホでもパソコンでも使えます。</p>
+    </div>
+  </section>
+
+  <section class="step flip" id="s2">
+    <figure class="shot"><img src="img/02-ticket.png" alt="チケットのカード。残り27枚、発行30、使用3、予約中2と表示され、使った枚数だけスタンプが付いている" width="736" height="866"></figure>
+    <div class="body">
+      <p class="no"><b>2</b>残り枚数を見る</p>
+      <h2>チケットの残りは、いちばん上のカードで分かります</h2>
+      <ol class="pts">
+        <li>大きな数字が、残りの枚数です。</li>
+        <li>「発行」「使用」「予約中」の数も確認できます。</li>
+        <li>使った枚数だけ、スタンプ（にこにこマーク）が付きます。</li>
+      </ol>
+      <div class="tix">
+        <div><b>申込み</b><span>減りません</span></div>
+        <div><b>日時の確定</b><span>減りません</span></div>
+        <div><b>日時の変更</b><span>減りません</span></div>
+        <div><b>キャンセル</b><span>減りません</span></div>
+        <div class="use"><b>コンサルの完了</b><span>1枚使います</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="s3">
+    <figure class="shot fade"><img src="img/04-form.png" alt="申込みの入力画面。相談内容、一緒にしてほしいこと、教えてほしいこと、希望日時の欄がある" width="800" height="1584"></figure>
+    <div class="body">
+      <p class="no"><b>3</b>申し込む</p>
+      <h2>「個別コンサルを申し込む」から入力します</h2>
+      <ol class="pts">
+        <li>チケットのカードにある「個別コンサルを申し込む」を押します。</li>
+        <li>「相談内容（ひとことで）」を入れます（40文字まで）。</li>
+        <li>「一緒にしてほしいこと」「教えてほしいこと」を入れます。</li>
+        <li>希望日時を日本時間で入れます。「＋ 候補を追加」で第3希望まで出せます。</li>
+        <li>いちばん下の「申し込む」を押します。</li>
+      </ol>
+      <p class="note ok">状態が <span class="pill p-req">申込中</span> になれば、受付完了です。日時の確定をお待ちください。</p>
+      <p class="note warn">お子さんや保護者の方のお名前など、個人が分かる情報は書かないでください。</p>
+    </div>
+  </section>
+
+  <section class="step flip" id="s4">
+    <figure class="shot fade"><img src="img/07-confirmed.png" alt="確定した予約の詳細。確定した日時、実施方法、変更やキャンセルのボタンが表示されている" width="800" height="1584"></figure>
+    <div class="body">
+      <p class="no"><b>4</b>確定を確認する</p>
+      <h2>日時が決まると「確定」に変わります</h2>
+      <ol class="pts">
+        <li>ご予約一覧の行を押すと、詳しい内容が開きます。</li>
+        <li>確定した日時と、実施方法が表示されます。Larkのチャットでもお知らせします。</li>
+        <li>下のほうで、連絡事項と変更の履歴も見られます。</li>
+      </ol>
+      <div class="grid2">
+        <div class="card"><h3>Larkビデオ会議</h3><p>Larkのチャットに届く参加リンクから入ります。</p></div>
+        <div class="card"><h3>Larkビデオ通話</h3><p>予約の時間に、Larkのチャットからビデオ通話がかかってきます。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="s5">
+    <figure class="shot fade"><img src="img/08-change.png" alt="日時の変更を依頼する画面。新しい希望日時と理由を入力する" width="800" height="1520"></figure>
+    <div class="body">
+      <p class="no"><b>5</b>変更・キャンセル</p>
+      <h2>予約を開いて、ボタンを選びます</h2>
+      <div class="grid2">
+        <div class="card"><h3>内容を直したい</h3><p>「内容を編集」を押します。申込中なら、希望日時も直せます。</p></div>
+        <div class="card"><h3>決まった日時を変えたい</h3><p>「日時の変更を依頼」を押し、新しい希望日時と理由を入れます。</p></div>
+        <div class="card"><h3>取りやめたい</h3><p>「キャンセル」を押します。申込中・確定のどちらでもできます。</p></div>
+      </div>
+      <p class="note">日時の変更を依頼すると、いったん <span class="pill p-req">申込中</span> に戻ります。新しい日時が決まると <span class="pill p-con">確定</span> になります。</p>
+      <p class="note ok">変更やキャンセルで、チケットが減ることはありません。</p>
+      <p class="note"><span class="pill p-done">完了</span> になった予約は変更できません。訂正が必要なときは、Larkのチャットでご連絡ください。</p>
+    </div>
+  </section>
+
+  <section class="step flip" id="s6">
+    <figure class="shot fade"><img src="img/10-ledger.png" alt="チケット利用履歴の画面。発行と使用の日時、増減、残り枚数が並んでいる" width="800" height="1720"></figure>
+    <div class="body">
+      <p class="no"><b>6</b>利用履歴を見る</p>
+      <h2>いつ使ったかは「チケット利用履歴」で確認できます</h2>
+      <ol class="pts">
+        <li>「チケット利用履歴」のタブを押します。</li>
+        <li>発行された日と、使った日が順に並びます。</li>
+        <li>右側に、そのときの増減と残り枚数が出ます。</li>
+      </ol>
+      <p class="note">画面を開いたままにしていたときは、右上の「最新にする」を押すと、最新の内容になります。</p>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <h2>困ったとき</h2>
+    <dl class="faq">
+      <div><dt>「このリンクは使えません」と出る</dt><dd>リンクが新しくなっている可能性があります。Larkのチャットでお問い合わせください。最新のリンクをお送りします。</dd></div>
+      <div><dt>申し込めない</dt><dd>チケットの残りが0枚か、申込中・確定のご予約が残り枚数に達しています。今のご予約が完了してからお申し込みください。</dd></div>
+      <div><dt>リンクをなくした、ほかの方に送ってしまった</dt><dd>Larkのチャットでお知らせください。新しいリンクをお送りします。</dd></div>
+      <div><dt>「通信できませんでした」と出る</dt><dd>電波の良い場所で、もう一度お試しください。</dd></div>
+      <div><dt>残り枚数が合わない気がする</dt><dd>「チケット利用履歴」で確認できます。おかしいときは、Larkのチャットでご連絡ください。</dd></div>
+    </dl>
+  </section>
+
+  <footer>日時はすべて日本時間です。ご不明な点は、Larkのチャットでお気軽にお問い合わせください。<br>合同会社発達支援ほほえみカレッジ</footer>
+</main>
+</body>
+</html>
